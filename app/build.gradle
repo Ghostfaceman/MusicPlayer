@@ -31,8 +31,6 @@ MobSDK {
     appSecret "4ff21879117f7f94533fb0996efc4ede"
 //   SecVerify {}
     SMSSDK{
-        mobileAuth true
-        autoSMS true
     }
 }
 
