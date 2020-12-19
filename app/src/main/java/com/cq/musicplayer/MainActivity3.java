@@ -85,7 +85,7 @@ public class MainActivity3 extends AppCompatActivity {
                 userName.setText(nickname );
                 String src = qq.getFigureurl();
                 Glide.with(this).load(src).into(userHead);
-                navigationView.addHeaderView(nav_header);
+
             }else if (serializable instanceof PhoneUserBean){
                 PhoneUserBean phone = (PhoneUserBean) serializable;
                 String phone1 = phone.getPhone();
@@ -151,7 +151,9 @@ public class MainActivity3 extends AppCompatActivity {
         textQuery = findViewById(R.id.textQuery);
         recyclerView = findViewById(R.id.recyclerView);
         swipeRefreshLayout = findViewById(R.id.swiperefresh);
-        nav_header = LayoutInflater.from(getApplicationContext()).inflate(R.layout.navigation_head, null);
+
+        nav_header = navigationView.getHeaderView(0);
+
         userHead = nav_header.findViewById(R.id.userHead);
         userName = nav_header.findViewById(R.id.userName);
 

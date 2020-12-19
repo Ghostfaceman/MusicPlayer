@@ -194,6 +194,32 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+
+    /**
+     * 立即体验按钮事件监听(游客登录)
+     * @param view
+     */
+    public void buttonNoLogin(View view) {
+        if(checked){
+            //勾选了
+            MobSDK.submitPolicyGrantResult(checked, null);
+
+            //直接进入首页
+
+            Intent intent = new Intent(getApplicationContext(),MainActivity3.class);
+            startActivity(intent);
+            finish();
+
+        }else{
+            //未勾选
+            Toast.makeText(this, "请勾选用户协议后,再使用一键登录!", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+
+
+
     public void sendCode(Context context) {
         RegisterPage page = new RegisterPage();
         //如果使用我们的ui，没有申请模板编号的情况下需传null

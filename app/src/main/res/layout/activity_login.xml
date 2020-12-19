@@ -5,7 +5,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".LoginActivity"
-    android:background="#CD2626">
+    android:background="#21717C">
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/Card_NoLogin"
+        android:layout_above="@+id/Card_QQLogin"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="25dp"
+        app:cardCornerRadius="20dp"
+        app:cardBackgroundColor="@color/colorAccent">
+        <Button
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:text="立即体验"
+            android:textSize="15sp"
+            android:textColor="#21717C"
+            android:onClick="buttonNoLogin"
+            android:background="#FFFFFF"
+            />
+    </androidx.cardview.widget.CardView>
 
 
     <androidx.cardview.widget.CardView
@@ -20,7 +41,7 @@
         android:layout_height="wrap_content"
         android:text="QQ登录"
         android:textSize="15sp"
-        android:textColor="#EE6363"
+        android:textColor="#21717C"
         android:onClick="buttonQQLogin"
         android:background="#FFFFFF"
         />
@@ -40,11 +61,14 @@
             android:layout_height="wrap_content"
             android:onClick="buttonPhoneLogin"
             android:text="一键登录"
-            android:textColor="#EE6363"
+            android:textColor="#21717C"
             android:textSize="15sp"
             android:background="#FFFFFF"
             />
     </androidx.cardview.widget.CardView>
+
+
+
 
 
     <RelativeLayout
@@ -63,5 +87,7 @@
         android:checked="true"
         />
     </RelativeLayout>
+
+
 
 </RelativeLayout>
