@@ -50,12 +50,14 @@ public class MainActivity3 extends AppCompatActivity {
     private SwipeRefreshLayout swipeRefreshLayout;
     private ImageView userHead;
     private TextView userName;
+    private View nav_header;
 
     @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main3);
+
         //找到相应控件
         findView();
 
@@ -80,9 +82,10 @@ public class MainActivity3 extends AppCompatActivity {
             if (serializable instanceof QQUserBean){
                 QQUserBean qq = (QQUserBean) serializable;
                 String nickname = qq.getNickname();
-                userName.setText(nickname + "22226226");
+                userName.setText(nickname );
                 String src = qq.getFigureurl();
                 Glide.with(this).load(src).into(userHead);
+                navigationView.addHeaderView(nav_header);
             }else if (serializable instanceof PhoneUserBean){
                 PhoneUserBean phone = (PhoneUserBean) serializable;
                 String phone1 = phone.getPhone();
@@ -148,9 +151,10 @@ public class MainActivity3 extends AppCompatActivity {
         textQuery = findViewById(R.id.textQuery);
         recyclerView = findViewById(R.id.recyclerView);
         swipeRefreshLayout = findViewById(R.id.swiperefresh);
-        View inflate = LayoutInflater.from(getApplicationContext()).inflate(R.layout.navigation_head, null);
-        userHead = inflate.findViewById(R.id.userHead);
-        userName = inflate.findViewById(R.id.userName);
+        nav_header = LayoutInflater.from(getApplicationContext()).inflate(R.layout.navigation_head, null);
+        userHead = nav_header.findViewById(R.id.userHead);
+        userName = nav_header.findViewById(R.id.userName);
+
     }
 
     private void setNoticeBar(Toolbar toolBar) {
