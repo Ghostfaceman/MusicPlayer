@@ -214,6 +214,7 @@ public class LoginActivity extends AppCompatActivity {
                     bundle.putSerializable("PhoneUserBean",phoneUserBean);
                     intent.putExtra("bundle",bundle);
                     startActivity(intent);
+                    finish();
                 } else{
                     // TODO 处理错误的结果
                 }

@@ -80,7 +80,7 @@ public class MainActivity3 extends AppCompatActivity {
             if (serializable instanceof QQUserBean){
                 QQUserBean qq = (QQUserBean) serializable;
                 String nickname = qq.getNickname();
-                userName.setText(nickname + "");
+                userName.setText(nickname + "22226226");
                 String src = qq.getFigureurl();
                 Glide.with(this).load(src).into(userHead);
             }else if (serializable instanceof PhoneUserBean){
@@ -88,6 +88,8 @@ public class MainActivity3 extends AppCompatActivity {
                 String phone1 = phone.getPhone();
                 userName.setText(phone1 + "");
             }
+        }else{
+            //通过游客登录的方式进入的首页
         }
 
         //设置刷新的控件的颜色
