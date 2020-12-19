@@ -78,18 +78,19 @@ public class MainActivity3 extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle bundle = intent.getBundleExtra("bundle");
         if (bundle != null){
-            Serializable serializable = bundle.getSerializable("QQUserBean");
+
+            Serializable serializable = bundle.getSerializable("UserBean");
             if (serializable instanceof QQUserBean){
                 QQUserBean qq = (QQUserBean) serializable;
                 String nickname = qq.getNickname();
-                userName.setText(nickname );
+                userName.setText(nickname);
                 String src = qq.getFigureurl();
                 Glide.with(this).load(src).into(userHead);
 
             }else if (serializable instanceof PhoneUserBean){
                 PhoneUserBean phone = (PhoneUserBean) serializable;
                 String phone1 = phone.getPhone();
-                userName.setText(phone1 + "");
+                userName.setText("手机用户:" + phone1);
             }
         }else{
             //通过游客登录的方式进入的首页

@@ -115,7 +115,7 @@ public class LoginActivity extends AppCompatActivity {
 
                         Intent intent = new Intent(getApplicationContext(),MainActivity3.class);
                         Bundle bundle = new Bundle();
-                        bundle.putSerializable("QQUserBean", qqUserBean);
+                        bundle.putSerializable("UserBean", qqUserBean);
                         intent.putExtra("bundle",bundle);
                         startActivity(intent);
                         finish();
@@ -237,7 +237,7 @@ public class LoginActivity extends AppCompatActivity {
                     PhoneUserBean phoneUserBean = new PhoneUserBean(phone,country);
                     Intent intent = new Intent(getApplicationContext(),MainActivity3.class);
                     Bundle bundle = new Bundle();
-                    bundle.putSerializable("PhoneUserBean",phoneUserBean);
+                    bundle.putSerializable("UserBean",phoneUserBean);
                     intent.putExtra("bundle",bundle);
                     startActivity(intent);
                     finish();
