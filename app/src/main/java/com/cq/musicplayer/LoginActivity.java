@@ -44,12 +44,15 @@ public class LoginActivity extends AppCompatActivity {
     private BaseUiListener mIUiListener;
     private UserInfo mUserInfo;
     private CheckBox cb_xy;
+    private boolean checked;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        //检查是否勾选用户隐私协议
+        cb_xy = findViewById(R.id.cb_xy);
+        checked = cb_xy.isChecked();
         //传入参数APPID和全局Context上下文
         mTencent = Tencent.createInstance(APP_ID, LoginActivity.this);
 
@@ -60,12 +63,22 @@ public class LoginActivity extends AppCompatActivity {
      * @param v
      */
     public void buttonQQLogin(View v) {
-        /**通过这句代码，SDK实现了QQ的登录，这个方法有三个参数，第一个参数是context上下文，第二个参数SCOPO 是一个String类型的字符串，表示一些权限
-         官方文档中的说明：应用需要获得哪些API的权限，由“，”分隔。例如：SCOPE = “get_user_info,add_t”；所有权限用“all”
-         第三个参数，是一个事件监听器，IUiListener接口的实例，这里用的是该接口的实现类 */
-        mIUiListener = new BaseUiListener();
-        //all表示获取所有权限
-        mTencent.login(LoginActivity.this, "all", mIUiListener);
+        if(checked){
+            //勾选了
+            MobSDK.submitPolicyGrantResult(checked, null);
+
+            /**通过这句代码，SDK实现了QQ的登录，这个方法有三个参数，第一个参数是context上下文，第二个参数SCOPO 是一个String类型的字符串，表示一些权限
+             官方文档中的说明：应用需要获得哪些API的权限，由“，”分隔。例如：SCOPE = “get_user_info,add_t”；所有权限用“all”
+             第三个参数，是一个事件监听器，IUiListener接口的实例，这里用的是该接口的实现类 */
+            mIUiListener = new BaseUiListener();
+            //all表示获取所有权限
+            mTencent.login(LoginActivity.this, "all", mIUiListener);
+        }else{
+            //未勾选
+            Toast.makeText(this, "请勾选用户协议后,再使用一键登录!", Toast.LENGTH_SHORT).show();
+        }
+
+
     }
 
 
@@ -168,10 +181,6 @@ public class LoginActivity extends AppCompatActivity {
      * @param view
      */
     public void buttonPhoneLogin(View view) {
-        //检查是否勾选用户隐私协议
-        cb_xy = findViewById(R.id.cb_xy);
-        boolean checked = cb_xy.isChecked();
-        Log.d(TAG, "buttonPhoneLogin: "+checked);
         if(checked){
             //勾选了
             MobSDK.submitPolicyGrantResult(checked, null);
