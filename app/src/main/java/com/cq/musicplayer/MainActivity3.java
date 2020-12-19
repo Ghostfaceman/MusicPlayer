@@ -225,6 +225,19 @@ public class MainActivity3 extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    /**
+     * 返回键(按下返回键相当于执行了Home键)
+     */
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        //调用HOME键
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);// 注意，这个地方最重要，关于解释，自己google吧
+        intent.addCategory(Intent.CATEGORY_HOME);
+        this.startActivity(intent);
+    }
 }
 
 

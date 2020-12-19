@@ -105,6 +105,7 @@ public class LoginActivity extends AppCompatActivity {
                         bundle.putSerializable("QQUserBean", qqUserBean);
                         intent.putExtra("bundle",bundle);
                         startActivity(intent);
+                        finish();
                     }
 
                     @Override
