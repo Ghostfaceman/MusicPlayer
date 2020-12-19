@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/info"
+            android:icon="@drawable/info"
+            android:title="Info"/>
+
+        <item
+            android:id="@+id/menu"
+            android:icon="@drawable/menu"
+            android:title="menu"/>
+
+        <item
+            android:id="@+id/set"
+            android:title="setting"
+            android:icon="@drawable/setting"/>
+
+        <item
+            android:id="@+id/edit"
+            android:icon="@drawable/editor"
+            android:title="edit"/>
+
+    </group>
+</menu>
