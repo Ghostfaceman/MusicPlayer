@@ -3,6 +3,9 @@ package com.cq.musicplayer;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
@@ -13,7 +16,11 @@ import android.os.IBinder;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 
 public class Play_Page extends AppCompatActivity {
@@ -27,16 +34,20 @@ public class Play_Page extends AppCompatActivity {
     private boolean index = false;
     private int i = 0;
     private Bundle bundle;
-    private String[] strings = new String[]{
-                "Alan Walker",
-                "影子习惯",
-                "勇气",
-                "从你的全世界路过",
-                "小幸运",
-                "米津玄師 (よねづ けんし)",
-                "孤单心事",};
     private static player_Service.MyBinder iBinder;
     private String name;
+    private ImageView imageView;
+    private RotateAnimation ra;
+    private ObjectAnimator objectAnimator;
+    private String[] strings = new String[]{
+            "Alan Walker",
+            "影子习惯",
+            "勇气",
+            "从你的全世界路过",
+            "小幸运",
+            "米津玄師 (よねづ けんし)",
+            "孤单心事",};
+
 
     // 接收更新后的进度条，用来更新音乐进度。
     public static Handler handler = new Handler(){
@@ -71,6 +82,7 @@ public class Play_Page extends AppCompatActivity {
         }
     };
 
+    @SuppressLint("ObjectAnimatorBinding")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,10 +98,21 @@ public class Play_Page extends AppCompatActivity {
         Intent intent = getIntent();
         bundle = intent.getBundleExtra("bundle");
         name = bundle.getString("name");
+        imageView = findViewById(R.id.image_player);
 
         Intent intent1 = new Intent(this,player_Service.class);  //首先通过startService的方法开启服务，保证该服务在后台长期运行
         startService(intent1);
         bindService(intent1,new MyConnection(),BIND_ABOVE_CLIENT);
+
+        objectAnimator = ObjectAnimator.ofFloat(imageView, "rotation", 0f, 720f);
+        //旋转不停顿
+        objectAnimator.setInterpolator(new LinearInterpolator());
+        //设置动画重复次数
+        objectAnimator.setRepeatCount(99999);
+        //旋转时长
+        objectAnimator.setDuration(8000);
+        //开始旋转
+        objectAnimator.start();
     }
 
     class MyConnection implements ServiceConnection{
@@ -114,6 +137,7 @@ public class Play_Page extends AppCompatActivity {
         switch (view.getId()){
             //音乐开始键
             case R.id.start:
+                objectAnimator.resume();
                       //调用继续播放方法
                 iBinder.callcontinuePlay();
                       //让开始键消失
@@ -124,6 +148,7 @@ public class Play_Page extends AppCompatActivity {
 
             //音乐暂停键（刚开始是显示的暂停键）
             case R.id.pause:
+                objectAnimator.pause();  //让动画暂停
                      //调用服务里的暂停音乐方法
                 iBinder.callpauseMusic();
                      //让暂停键消失
@@ -134,6 +159,7 @@ public class Play_Page extends AppCompatActivity {
 
             //上一首
             case R.id.last:
+                objectAnimator.resume();
                 //让开始键消失
                 button_Start.setVisibility(View.GONE);
                 //让暂停键显示出来
@@ -154,6 +180,7 @@ public class Play_Page extends AppCompatActivity {
                 break;
             //下一首
             case R.id.next:
+                objectAnimator.resume();
                 //让开始键消失
                 button_Start.setVisibility(View.GONE);
                 //让暂停键显示出来
