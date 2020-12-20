@@ -25,7 +25,9 @@
         <activity android:name=".MainActivity3" />
         <uses-library android:name="org.apache.http.legacy" android:required="false" />
         <activity
+            android:label="XXMusic"
             android:name=".MainActivity"
+            android:icon="@drawable/logo"
             android:theme="@style/NoStatusTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -42,7 +42,6 @@ public class player_Service extends Service {
         @RequiresApi(api = Build.VERSION_CODES.N)
         public void callpalyMusic(String musicname){
             palyMusic(musicname);
-            Log.d(TAG, "callpalyMusic: " +"11111111111");
         }
 
         public void callpauseMusic(){

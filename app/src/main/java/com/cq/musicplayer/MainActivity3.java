@@ -78,8 +78,8 @@ public class MainActivity3 extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle bundle = intent.getBundleExtra("bundle");
         if (bundle != null){
-
             Serializable serializable = bundle.getSerializable("UserBean");
+
             if (serializable instanceof QQUserBean){
                 QQUserBean qq = (QQUserBean) serializable;
                 String nickname = qq.getNickname();
@@ -94,6 +94,7 @@ public class MainActivity3 extends AppCompatActivity {
             }
         }else{
             //通过游客登录的方式进入的首页
+
         }
 
         //设置刷新的控件的颜色
@@ -152,9 +153,7 @@ public class MainActivity3 extends AppCompatActivity {
         textQuery = findViewById(R.id.textQuery);
         recyclerView = findViewById(R.id.recyclerView);
         swipeRefreshLayout = findViewById(R.id.swiperefresh);
-
         nav_header = navigationView.getHeaderView(0);
-
         userHead = nav_header.findViewById(R.id.userHead);
         userName = nav_header.findViewById(R.id.userName);
 
@@ -202,7 +201,8 @@ public class MainActivity3 extends AppCompatActivity {
             case R.id.query:
                 textQuery.setVisibility(View.VISIBLE);
                 //搜索Music提示模拟数据
-                String[] strings = new String[]{"Alan Walker",
+                String[] strings = new String[]{
+                        "Alan Walker",
                         "影子习惯",
                         "勇气", "从你的全世界路过",
                         "小幸运",
@@ -218,8 +218,6 @@ public class MainActivity3 extends AppCompatActivity {
                         bundle.putString("name",s);
                         intent.putExtra("bundle",bundle);
                         MainActivity3.this.startActivity(intent);
-                    }else{
-                        Toast.makeText(this, "抱歉，没有搜索到该音乐！~~", Toast.LENGTH_SHORT).show();
                     }
                 }
                 textQuery.setText("");
