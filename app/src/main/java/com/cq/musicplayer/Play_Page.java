@@ -21,6 +21,7 @@ import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 
 import com.bumptech.glide.Glide;
@@ -38,9 +39,10 @@ public class Play_Page extends AppCompatActivity {
     private Bundle bundle;
     private static player_Service.MyBinder iBinder;
     private String name;
-    private ImageView imageView;
+    private RelativeLayout relative;
     private RotateAnimation ra;
     private ObjectAnimator objectAnimator;
+    private ImageView imageView;
     private String[] strings = new String[]{"Alan Walker _ Sabrina", "Charlie Puth", "Lemon", "Kelly Clarkson", "从你的全世界路过", "勇气", "告白之夜", "夏至未至", "夜空中最亮的星", "孤单心事", "小幸运 (Live)", "影子习惯", "拾忆", "明天，你好", "溯 (Reverse)", "那个男孩"};
 
     // 接收更新后的进度条，用来更新音乐进度。
@@ -88,14 +90,16 @@ public class Play_Page extends AppCompatActivity {
         button_last = findViewById(R.id.last);
         button_next = findViewById(R.id.next);
         seekBar = findViewById(R.id.seekbar);
+        relative = findViewById(R.id.relative);
         imageView = findViewById(R.id.image_player);
+        ImageView imageView_back = findViewById(R.id.image_back);
 
         //获取上个活动传递过来的数据
         Intent intent = getIntent();
         bundle = intent.getBundleExtra("bundle");
         name = bundle.getString("name");
         picture = bundle.getString("picture");
-        Glide.with(this).load(picture).into(imageView);
+        Glide.with(this).load(picture).into(imageView_back);
 
         Intent intent1 = new Intent(this,player_Service.class);  //首先通过startService的方法开启服务，保证该服务在后台长期运行
         startService(intent1);
