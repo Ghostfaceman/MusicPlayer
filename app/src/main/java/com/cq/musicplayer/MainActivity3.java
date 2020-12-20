@@ -94,7 +94,6 @@ public class MainActivity3 extends AppCompatActivity {
             }
         }else{
             //通过游客登录的方式进入的首页
-
         }
 
         //设置刷新的控件的颜色
@@ -171,12 +170,13 @@ public class MainActivity3 extends AppCompatActivity {
 
     private void initial() {
         list.clear();
-        Random random = new Random();
-        for (int i = 0; i < 50;i++){
+        int j = 0;
+        for (int i = 0; i < Music.musics.length;i++){
             JavaBean javaBean = new JavaBean();
-            int randomInt = random.nextInt(Music.musics.length);
-            javaBean.setName(Music.musics[randomInt]);
-            javaBean.setPicture("https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3252068375,2995823524&fm=26&gp=0.jpg");
+            javaBean.setName(Music.musics[i]);
+            if (j+1 < Music.picture.length){
+                javaBean.setPicture(Music.picture[++j]);
+            }
             list.add(javaBean);
         }
     }
@@ -201,14 +201,8 @@ public class MainActivity3 extends AppCompatActivity {
             case R.id.query:
                 textQuery.setVisibility(View.VISIBLE);
                 //搜索Music提示模拟数据
-                String[] strings = new String[]{
-                        "Alan Walker",
-                        "影子习惯",
-                        "勇气", "从你的全世界路过",
-                        "小幸运",
-                        "米津玄師 (よねづ けんし)",
-                        "孤单心事",};
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity3.this,R.layout.autotext_item,strings);
+                String[] strings = new String[]{"Alan Walker _ Sabrina", "Charlie Puth", "Lemon", "Kelly Clarkson", "从你的全世界路过", "勇气", "告白之夜", "夏至未至", "夜空中最亮的星", "孤单心事", "小幸运 (Live)", "影子习惯", "拾忆", "明天，你好", "溯 (Reverse)", "那个男孩"};
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(MainActivity3.this,R.layout.autotext_item,strings);
                 textQuery.setAdapter(adapter);
                 String s = textQuery.getText().toString();
                 for (int i = 0; i < strings.length;i++){

@@ -210,6 +210,4 @@ public class MainActivity extends AppCompatActivity {
         timer.schedule(task3,7000);
     }
 
-    public void myOnclick(View view) {
-    }
 }

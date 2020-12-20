@@ -4,7 +4,7 @@ public class JavaBean{
 
     private int id;  //歌曲的Id
     private String name;   //音乐名字
-    private String picture;  //音乐内容
+    private String picture;  //背景图片
 
     public String getName() {
         return name;
