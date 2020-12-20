@@ -23,6 +23,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 
+import com.bumptech.glide.Glide;
+
 public class Play_Page extends AppCompatActivity {
 
     private static final String TAG = "Play_Page";
@@ -73,6 +75,7 @@ public class Play_Page extends AppCompatActivity {
             });
         }
     };
+    private String picture;
 
     @SuppressLint("ObjectAnimatorBinding")
     @Override
@@ -85,12 +88,14 @@ public class Play_Page extends AppCompatActivity {
         button_last = findViewById(R.id.last);
         button_next = findViewById(R.id.next);
         seekBar = findViewById(R.id.seekbar);
+        imageView = findViewById(R.id.image_player);
 
         //获取上个活动传递过来的数据
         Intent intent = getIntent();
         bundle = intent.getBundleExtra("bundle");
         name = bundle.getString("name");
-        imageView = findViewById(R.id.image_player);
+        picture = bundle.getString("picture");
+        Glide.with(this).load(picture).into(imageView);
 
         Intent intent1 = new Intent(this,player_Service.class);  //首先通过startService的方法开启服务，保证该服务在后台长期运行
         startService(intent1);
