@@ -39,15 +39,7 @@ public class Play_Page extends AppCompatActivity {
     private ImageView imageView;
     private RotateAnimation ra;
     private ObjectAnimator objectAnimator;
-    private String[] strings = new String[]{
-            "Alan Walker",
-            "影子习惯",
-            "勇气",
-            "从你的全世界路过",
-            "小幸运",
-            "米津玄師 (よねづ けんし)",
-            "孤单心事",};
-
+    private String[] strings = new String[]{"Alan Walker _ Sabrina", "Charlie Puth", "Lemon", "Kelly Clarkson", "从你的全世界路过", "勇气", "告白之夜", "夏至未至", "夜空中最亮的星", "孤单心事", "小幸运 (Live)", "影子习惯", "拾忆", "明天，你好", "溯 (Reverse)", "那个男孩"};
 
     // 接收更新后的进度条，用来更新音乐进度。
     public static Handler handler = new Handler(){
@@ -175,8 +167,6 @@ public class Play_Page extends AppCompatActivity {
                 }
                 i = i-1 >= 0 ? --i : strings.length - 1;
                 iBinder.callpalyMusic(strings[i]);
-                Log.d(TAG, "myOnclick:------- " + i);
-                Log.d(TAG, "myOnclick: " + strings[i]);
                 break;
             //下一首
             case R.id.next:
@@ -195,9 +185,7 @@ public class Play_Page extends AppCompatActivity {
                     index = true;
                 }
                 i = i+1 < strings.length ? ++i : 0;
-                Log.d(TAG, "myOnclick:------- " + i);
                 iBinder.callpalyMusic(strings[i]);
-                Log.d(TAG, "myOnclick: " + strings[i]);
                 break;
         }
     }
