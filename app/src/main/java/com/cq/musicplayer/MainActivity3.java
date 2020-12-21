@@ -70,7 +70,7 @@ public class MainActivity3 extends AppCompatActivity {
         //为RecyclerView设置数据和样式
         GridLayoutManager manager = new GridLayoutManager(this,1);
         recyclerView.setLayoutManager(manager);
-        initial(); //给list里面初始化数据
+        initial2(); //给list里面初始化数据
         myAdapter = new MyAdapter(list);
         recyclerView.setAdapter(myAdapter);
 
@@ -121,7 +121,7 @@ public class MainActivity3 extends AppCompatActivity {
                     @Override
                     public void run() {
                         //重新初始化一遍
-                        initial();
+                        initial2();
                         //通知适配器，数据改变了
                         myAdapter.notifyDataSetChanged();
                         //刷新结束，取消显示刷新进度
@@ -168,6 +168,7 @@ public class MainActivity3 extends AppCompatActivity {
         }
     }
 
+/*
     private void initial() {
         list.clear();
         int j = 0;
@@ -180,6 +181,31 @@ public class MainActivity3 extends AppCompatActivity {
             list.add(javaBean);
         }
     }
+*/
+
+    //刷新用的数据初始化   (自己写的，把自己都整糊涂了，但能保证刷新的前面几个几乎不会重复！！)
+    private void initial2() {
+        list.clear();
+        int j = 0;
+        int i1 = -1,i2 = -1,i11 = -1,i22 = -1,i111 = -1,i222 = -1;
+        Random random = new Random();
+        for (int i = 0; i < 40;i++){
+            JavaBean javaBean = new JavaBean();
+            if (i % 2 == 0){
+                i11 = i1;
+                i22 = i2;
+            }else if (i % 2 == 1){
+                i111 = i1;
+                i222 = i2;
+            }
+            i1 = ((j = random.nextInt(Music.musics.length)) != i1 && j != i11 && j != i111) ? j : (j = random.nextInt(Music.musics.length)) != i1 && j != i11 && j != i111 ? j : (j = random.nextInt(Music.musics.length)) != i1 && j != i11 && j != i111 ? j : random.nextInt(Music.musics.length);
+            javaBean.setName(Music.musics[i1]);
+            i2 = ((j = random.nextInt(Music.picture.length)) != i2 && j != i22 && j != i222) ? j : (j = random.nextInt(Music.picture.length)) != i2 && j != i22 && j != i222 ? j : (j = random.nextInt(Music.musics.length)) != i1 && j != i11 && j != i111 ? j : random.nextInt(Music.picture.length);
+            javaBean.setPicture(Music.picture[i2]);
+            list.add(javaBean);
+        }
+    }
+
 
     //创建Menu
     @Override

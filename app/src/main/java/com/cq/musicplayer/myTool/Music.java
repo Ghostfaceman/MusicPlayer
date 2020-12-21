@@ -36,7 +36,8 @@ public class Music {
             "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1608474695908&di=913f5669fd521981a96fbb914f018ae7&imgtype=0&src=http%3A%2F%2Fattach.bbs.miui.com%2Fforum%2F201408%2F25%2F121329ux6uoccccwuc15cx.jpg",
             "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1608474695908&di=ddc223c7c6340d4acc2b7e32bdc73cc6&imgtype=0&src=http%3A%2F%2Fattachments.gfan.net.cn%2Fforum%2Fattachments2%2F201407%2F30%2F095347mr5mbrusg1mz3pfj.jpg",
             "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1608474695908&di=dbddd74ce5b6a8399c5aefd1f915b2e5&imgtype=0&src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F2020-11-03%2F5fa0ce1e7b8eb.jpg",
-            "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1608474728732&di=2c7b351f8f16d33564d1c482f23a7c71&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201112%2F09%2F20111209155100_rePWT.jpg"
+            "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1608474728732&di=2c7b351f8f16d33564d1c482f23a7c71&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201112%2F09%2F20111209155100_rePWT.jpg",
+            "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1608528411088&di=df62fd426d11c79f27824262fdc8088e&imgtype=0&src=http%3A%2F%2Fattach.bbs.miui.com%2Fforum%2F201410%2F28%2F124709kplpwd2hzs2hppf2.jpg"
     };
 
 }

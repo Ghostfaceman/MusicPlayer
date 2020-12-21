@@ -12,9 +12,24 @@
         android:id="@+id/imageView2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/timg6" />
+        android:src="@drawable/timg6"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp" />
 
-        <androidx.cardview.widget.CardView
+    <TextView
+        android:id="@+id/musicName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="明天，你好"
+        android:textColor="#fff"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.cardview.widget.CardView
             android:id="@+id/cardView"
             android:layout_width="match_parent"
             android:layout_height="180dp"
@@ -38,7 +53,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_centerInParent="true"
-                    android:background="#000"/>
+                    android:background="#000"
+                    android:scaleType="centerCrop"/>
 
                 <ImageView
                     android:id="@+id/image_player"
@@ -55,7 +71,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="35dp"
-
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -67,7 +82,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_margin="20dp"
-        app:cardCornerRadius="30dp"
+        app:cardCornerRadius="35dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.34"
@@ -75,10 +90,11 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.876">
 
+        <!-- android:background="#78B1A8A8" -->
         <RelativeLayout
             android:layout_height="match_parent"
             android:layout_width="match_parent"
-            android:background="#78B1A8A8"
+            android:background="@drawable/timg"
             android:orientation="vertical">
 
             <ImageButton
@@ -89,7 +105,9 @@
                 android:src="@drawable/start1"
                 android:layout_centerHorizontal="true"
                 android:visibility="gone"
-                 />
+                tools:ignore="OnClick"
+                android:layout_marginTop="10dp"
+                android:background="#0003A9F4"/>
             <ImageButton
                 android:id="@+id/pause"
                 android:layout_width="wrap_content"
@@ -97,7 +115,9 @@
                 android:onClick="myOnclick"
                 android:src="@drawable/pause2"
                 android:layout_centerHorizontal="true"
-                />
+                tools:ignore="OnClick"
+                android:background="#0003A9F4"
+                android:layout_marginTop="10dp"/>
 
             <ImageButton
                 android:id="@+id/next"
@@ -106,9 +126,11 @@
                 android:onClick="myOnclick"
                 android:src="@drawable/next3"
                 android:layout_marginRight="28dp"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="15dp"
                 android:layout_alignParentRight="true"
                 android:text="下一首"
+                tools:ignore="OnClick"
+                android:background="#0003A9F4"
                 />
 
             <ImageButton
@@ -117,11 +139,12 @@
                 android:layout_height="wrap_content"
                 android:onClick="myOnclick"
                 android:layout_marginLeft="28dp"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="15dp"
                 android:src="@drawable/last3"
                 android:layout_alignParentStart="true"
                 android:text="上一首"
-               />
+                tools:ignore="OnClick"
+                android:background="#0003A9F4"/>
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>

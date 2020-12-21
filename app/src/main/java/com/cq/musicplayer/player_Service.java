@@ -91,7 +91,6 @@ public class player_Service extends Service {
                 bundle.putInt("duration",duration);
                 bundle.putInt("currentPosition",currentPosition);
                 message.setData(bundle);
-
                 //发送信息
                 Play_Page.handler.sendMessage(message);
             }

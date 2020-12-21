@@ -14,8 +14,11 @@ import android.view.animation.AnimationSet;
 import android.view.animation.RotateAnimation;
 import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -30,6 +33,9 @@ public class MainActivity extends AppCompatActivity {
     private ImageView imag6;
     private TextView textView;
     private TextView textView2;
+    private ImageButton imageButton;
+    private TimerTask task3;
+    private TextView text_content;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
 
             RotateAnimation ra1 = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
             ra1.setDuration(3000); //设置动画执行的时间
-            ra1.setRepeatCount(2); //设置重复的次数
+            ra1.setRepeatCount(1); //设置重复的次数
             ra1.setRepeatMode(Animation.REVERSE);//设置动画执行的模式
             set5.addAnimation(alphaAnimation);
             set5.addAnimation(ra1);
@@ -156,10 +162,21 @@ public class MainActivity extends AppCompatActivity {
         i2 = findViewById(R.id.image2);
         i3 = findViewById(R.id.image3);
         i4 = findViewById(R.id.image4);
+        text_content = findViewById(R.id.text_content);
         image5 = findViewById(R.id.image5);
         imag6 = findViewById(R.id.image6);
         textView = findViewById(R.id.textView);
         textView2 = findViewById(R.id.textView2);
+        imageButton = findViewById(R.id.imageJump);
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this,LoginActivity.class);
+                startActivity(intent);
+                task3.cancel();
+                finish();
+            }
+        });
     }
 
 
@@ -175,6 +192,7 @@ public class MainActivity extends AppCompatActivity {
                     public void run() {
                         textView.setVisibility(View.VISIBLE);
                         textView2.setVisibility(View.VISIBLE);
+                        text_content.setVisibility(View.VISIBLE);
                     }
                 });
             }
@@ -194,7 +212,7 @@ public class MainActivity extends AppCompatActivity {
         };
 
         //定时跳转到登录界面
-        TimerTask task3 = new TimerTask() {
+        task3 = new TimerTask() {
             @Override
             public void run() {
                 Intent intent = new Intent(MainActivity.this,LoginActivity.class);

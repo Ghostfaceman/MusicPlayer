@@ -5,89 +5,107 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".LoginActivity"
-    android:background="#21717C">
+    android:background="#00BCD4">
 
 
-    <androidx.cardview.widget.CardView
+    <ImageView
+        android:id="@+id/image6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/Card_NoLogin"
-        android:layout_above="@+id/Card_QQLogin"
-        android:layout_centerInParent="true"
-        android:layout_marginBottom="25dp"
-        app:cardCornerRadius="20dp"
-        app:cardBackgroundColor="@color/colorAccent">
-        <Button
-            android:layout_width="350dp"
-            android:layout_height="wrap_content"
-            android:text="立即体验"
-            android:textSize="15sp"
-            android:textColor="#21717C"
-            android:onClick="buttonNoLogin"
-            android:background="#FFFFFF"
-            />
-    </androidx.cardview.widget.CardView>
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="114dp"
+        android:layout_marginTop="107dp"
+        android:layout_marginEnd="115dp"
+        android:layout_marginBottom="442dp"
+        app:srcCompat="@drawable/logo" />
 
-
-    <androidx.cardview.widget.CardView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/Card_QQLogin"
-        android:layout_centerInParent="true"
-        app:cardCornerRadius="20dp"
-        app:cardBackgroundColor="@color/colorAccent">
-    <Button
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:text="QQ登录"
-        android:textSize="15sp"
-        android:textColor="#21717C"
-        android:onClick="buttonQQLogin"
-        android:background="#FFFFFF"
-        />
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_below="@+id/Card_QQLogin"
-        app:cardCornerRadius="20dp"
-        android:layout_marginTop="25dp"
-        android:id="@+id/Card_PhoneLogin"
-        >
-        <Button
-            android:layout_width="350dp"
-            android:layout_height="wrap_content"
-            android:onClick="buttonPhoneLogin"
-            android:text="一键登录"
-            android:textColor="#21717C"
-            android:textSize="15sp"
-            android:background="#FFFFFF"
-            />
-    </androidx.cardview.widget.CardView>
-
-
-
-
-
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/Card_PhoneLogin">
-    <CheckBox
-        android:id="@+id/cb_xy"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="请勾选并同意用户隐私协议"
-        android:textColor="#ffffff"
-        android:textSize="12sp"
-        android:layout_marginTop="60dp"
-        android:layout_marginLeft="50dp"
-        android:checked="true"
-        />
-    </RelativeLayout>
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="334dp"
+        android:layout_marginEnd="31dp"
+        android:layout_marginBottom="111dp"
+        android:orientation="vertical">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/Card_NoLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="25dp"
+            app:cardBackgroundColor="@color/colorAccent"
+            app:cardCornerRadius="20dp">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:onClick="buttonNoLogin"
+                android:text="立即体验"
+                android:textColor="#4CAF50"
+                android:textSize="15sp" />
+        </androidx.cardview.widget.CardView>
 
 
+        <androidx.cardview.widget.CardView
+            android:id="@+id/Card_QQLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="10dp"
+            app:cardBackgroundColor="@color/colorAccent"
+            app:cardCornerRadius="20dp">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:onClick="buttonQQLogin"
+                android:text="QQ登录"
+                android:textColor="#03A9F4"
+                android:textSize="15sp" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/Card_PhoneLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/Card_QQLogin"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="35dp"
+            app:cardCornerRadius="20dp"
+            >
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#FFFFFF"
+                android:onClick="buttonPhoneLogin"
+                android:text="一键登录"
+                android:textColor="#FF5722"
+                android:textSize="15sp" />
+        </androidx.cardview.widget.CardView>
+
+        <CheckBox
+            android:layout_marginTop="20dp"
+            android:id="@+id/cb_xy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:checked="false"
+            android:text="勾选同意用户隐私协议"
+            android:textColor="#ffffff"
+            android:textSize="13sp" />
+    </LinearLayout>
 
 </RelativeLayout>

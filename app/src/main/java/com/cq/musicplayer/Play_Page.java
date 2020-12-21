@@ -14,15 +14,15 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
-import android.util.Log;
 import android.view.View;
-import android.view.animation.Animation;
+import android.view.WindowManager;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
@@ -57,7 +57,6 @@ public class Play_Page extends AppCompatActivity {
             //为进度条设置当前进度和总进度
             seekBar.setMax(duration);
             seekBar.setProgress(currentPosition);
-
             //为精度条设置更改事件
             seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                 @Override
@@ -78,6 +77,8 @@ public class Play_Page extends AppCompatActivity {
         }
     };
     private String picture;
+    private ImageView imageView_back;
+    private TextView textView;
 
     @SuppressLint("ObjectAnimatorBinding")
     @Override
@@ -92,14 +93,18 @@ public class Play_Page extends AppCompatActivity {
         seekBar = findViewById(R.id.seekbar);
         relative = findViewById(R.id.relative);
         imageView = findViewById(R.id.image_player);
-        ImageView imageView_back = findViewById(R.id.image_back);
+        imageView_back = findViewById(R.id.image_back);
+        textView = findViewById(R.id.musicName);
 
+        //设置全屏
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         //获取上个活动传递过来的数据
         Intent intent = getIntent();
         bundle = intent.getBundleExtra("bundle");
         name = bundle.getString("name");
         picture = bundle.getString("picture");
         Glide.with(this).load(picture).into(imageView_back);
+        textView.setText(name);
 
         Intent intent1 = new Intent(this,player_Service.class);  //首先通过startService的方法开启服务，保证该服务在后台长期运行
         startService(intent1);

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -52,7 +53,12 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         //检查是否勾选用户隐私协议
         cb_xy = findViewById(R.id.cb_xy);
-        checked = cb_xy.isChecked();
+        cb_xy.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                checked = isChecked;
+            }
+        });
         //传入参数APPID和全局Context上下文
         mTencent = Tencent.createInstance(APP_ID, LoginActivity.this);
 
@@ -145,13 +151,11 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         public void onError(UiError uiError) {
             Toast.makeText(LoginActivity.this, "授权失败", Toast.LENGTH_SHORT).show();
-
         }
 
         @Override
         public void onCancel() {
             Toast.makeText(LoginActivity.this, "授权取消", Toast.LENGTH_SHORT).show();
-
         }
 
         @Override
