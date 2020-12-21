@@ -31,7 +31,7 @@ public class player_Service extends Service {
 
     @Override
     public void onCreate() {
-        //开启服务时，准备一个MediaPlayer用于播放音乐
+        //开启服务时，准备一个MediaPlayer用于播                                            放音乐
         mediaPlayer = new MediaPlayer();
         super.onCreate();
     }

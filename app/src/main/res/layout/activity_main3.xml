@@ -5,12 +5,15 @@
     android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity3">
+    tools:context=".MainActivity3"
+    android:orientation="vertical">
+
 
     <!--主页的状态栏-->
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:id="@+id/coordinatorLayout">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBarLayout2"
@@ -39,9 +42,77 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
+        <!--   滑动控件     -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginTop="57dp"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginEnd="6dp"
+                    app:cardCornerRadius="15dp"
+                    app:cardElevation="0dp">
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:id="@+id/iv_image"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/dd"/>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="#18000000"/>
+                    </FrameLayout>
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+
+            <!--   标题   -->
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:maxWidth="300dp"
+                android:paddingBottom="6dp"
+                android:paddingRight="12dp"
+                android:paddingTop="6dp"
+                android:paddingLeft="12dp"
+                android:textColor="@android:color/white"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                tools:text="《哆啦a梦》"/>
+            <TextView
+                android:id="@+id/tv_sub_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|right"
+                android:maxWidth="300dp"
+                android:paddingBottom="6dp"
+                android:paddingRight="12dp"
+                android:paddingTop="6dp"
+                android:paddingLeft="12dp"
+                android:textColor="@android:color/white"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                tools:text="《哆啦a梦》"/>
+
+        </FrameLayout>
+
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swiperefresh"
+            android:layout_marginTop="160dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -56,6 +127,8 @@
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
+
+
     <!--右边的个人信息，抽屉视图-->
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigationView"
@@ -69,5 +142,6 @@
         android:id="@+id/image"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"/>
+
 
 </androidx.drawerlayout.widget.DrawerLayout>

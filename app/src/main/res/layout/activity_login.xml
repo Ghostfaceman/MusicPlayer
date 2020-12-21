@@ -23,8 +23,8 @@
         app:srcCompat="@drawable/logo" />
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="367dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
@@ -32,7 +32,7 @@
         android:layout_marginStart="30dp"
         android:layout_marginTop="334dp"
         android:layout_marginEnd="31dp"
-        android:layout_marginBottom="111dp"
+        android:layout_marginBottom="30dp"
         android:orientation="vertical">
 
         <androidx.cardview.widget.CardView
@@ -80,8 +80,7 @@
             android:layout_below="@+id/Card_QQLogin"
             android:layout_centerInParent="true"
             android:layout_marginTop="35dp"
-            app:cardCornerRadius="20dp"
-            >
+            app:cardCornerRadius="20dp">
 
             <Button
                 android:layout_width="match_parent"
@@ -91,21 +90,23 @@
                 android:text="一键登录"
                 android:textColor="#FF5722"
                 android:textSize="15sp" />
+
         </androidx.cardview.widget.CardView>
 
         <CheckBox
-            android:layout_marginTop="20dp"
             android:id="@+id/cb_xy"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
+            android:layout_marginTop="20dp"
             android:checked="false"
             android:text="勾选同意用户隐私协议"
-            android:textColor="#ffffff"
+            android:textColor="#fff"
             android:textSize="13sp" />
+
     </LinearLayout>
 
 </RelativeLayout>
