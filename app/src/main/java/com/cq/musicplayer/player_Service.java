@@ -46,8 +46,8 @@ public class player_Service extends Service {
 
     public class MyBinder extends Binder{
         @RequiresApi(api = Build.VERSION_CODES.N)
-        public void callpalyMusic(Song song,ImageView imageView,TextView textView){
-            MusicPlayer.getPlayer().play(song);
+        public void callpalyMusic(Song song,boolean index){
+            MusicPlayer.getPlayer().play(song,index);
         }
 
         public void callpauseMusic(){
@@ -62,12 +62,12 @@ public class player_Service extends Service {
             seekTo(position);
         }
 
-        public void next_Music(){
-            MusicPlayer.getPlayer().next();
+        public void next_Music(boolean index){
+            MusicPlayer.getPlayer().next(index);
         }
 
-        public void last_Music(){
-            MusicPlayer.getPlayer().last();
+        public void last_Music(boolean index){
+            MusicPlayer.getPlayer().last(index);
         }
     }
 

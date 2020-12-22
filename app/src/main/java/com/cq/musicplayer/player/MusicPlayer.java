@@ -35,6 +35,7 @@ public class MusicPlayer implements MediaPlayer.OnCompletionListener {
     private static MediaPlayer mMediaPlayer;
 
     private static boolean index = true;
+    private static boolean index2 = false;
     private Context mContext;
 
     static ImageView imageView;
@@ -83,21 +84,24 @@ public class MusicPlayer implements MediaPlayer.OnCompletionListener {
      * @param queue
      * @param index
      */
-    public static void setQueue(List<Song> queue, int index) {
+    public static void setQueue(List<Song> queue, int index,boolean index2) {
         mQueue = queue;
         mQueueIndex = index;
-        play(getNowPlaying());
+        play(getNowPlaying(),index2);
     }
 
     /**
      * 播放音乐
      * @param song
      */
-    public static void play(Song song) {
+    public static void play(Song song,boolean index) {
 
+        index2 = index;
         //发给主线程，让主线程更新背景图和Music名称。
         // 发布事件
-        EventBus.getDefault().post(new MessageEvent(song));
+        if (index == true){
+            EventBus.getDefault().post(new MessageEvent(song));
+        }
         try {
             mMediaPlayer.reset();
             mMediaPlayer.setDataSource(song.getUrl());
@@ -130,21 +134,21 @@ public class MusicPlayer implements MediaPlayer.OnCompletionListener {
     /**
      * 播放下一首
      */
-    public void next() {
-        play(getNextSong());
+    public void next(boolean index) {
+        play(getNextSong(),index);
     }
 
     /*
     * 播放下一首
     * */
-    public void last() {
-        play(getPreviousSong());
+    public void last(boolean index) {
+        play(getPreviousSong(),index);
     }
 
 
     @Override
     public void onCompletion(MediaPlayer mp) {
-        next();
+        next(index2);
     }
 
     private static Song getNowPlaying() {

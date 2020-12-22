@@ -168,7 +168,7 @@ public class Play_Page extends AppCompatActivity {
         @Override
         public void onServiceConnected(ComponentName name1, IBinder service) {
             iBinder = (player_Service.MyBinder) service;
-            iBinder.callpalyMusic(song,imageView_back,textView);
+            iBinder.callpalyMusic(song,false);
         }
 
         //绑定失败
@@ -225,7 +225,7 @@ public class Play_Page extends AppCompatActivity {
                 textView.setText(strings[i]);*/
 
                 //Glide.with(this).load(Music.picture[i]).into(imageView_back);
-                iBinder.last_Music();
+                iBinder.last_Music(true);
                 break;
             //下一首
             case R.id.next:
@@ -249,7 +249,7 @@ public class Play_Page extends AppCompatActivity {
                 textView.setText(strings[i]);*/
 
                 //Glide.with(this).load(Music.picture[i]).into(imageView_back);
-                iBinder.next_Music();
+                iBinder.next_Music(true);
                 break;
         }
     }

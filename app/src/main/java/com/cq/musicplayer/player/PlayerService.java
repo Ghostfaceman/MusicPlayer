@@ -32,7 +32,7 @@ public class PlayerService extends Service {
 
      public static class MyBinder extends Binder {
         public void play(Song song) {
-            MusicPlayer.getPlayer().play(song);
+            MusicPlayer.getPlayer().play(song,false);
         }
     }
 }
