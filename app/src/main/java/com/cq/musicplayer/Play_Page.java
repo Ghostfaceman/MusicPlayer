@@ -181,6 +181,8 @@ public class Play_Page extends AppCompatActivity {
                 }
                 i = i-1 >= 0 ? --i : strings.length - 1;
                 iBinder.callpalyMusic(strings[i]);
+                textView.setText(strings[i]);
+                Glide.with(this).load(picture).into(imageView);
                 break;
             //下一首
             case R.id.next:
@@ -200,6 +202,8 @@ public class Play_Page extends AppCompatActivity {
                 }
                 i = i+1 < strings.length ? ++i : 0;
                 iBinder.callpalyMusic(strings[i]);
+                textView.setText(strings[i]);
+                Glide.with(this).load(picture).into(imageView);
                 break;
         }
     }
