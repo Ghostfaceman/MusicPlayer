@@ -2,8 +2,20 @@ package com.cq.musicplayer.player;
 
 import android.content.Context;
 import android.media.MediaPlayer;
+import android.os.Message;
+import android.util.Log;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.cq.musicplayer.MainActivity;
+import com.cq.musicplayer.Play_Page;
 import com.cq.musicplayer.musicApiUtil.model.Song;
+import com.cq.musicplayer.myTool.MessageEvent;
+import com.cq.musicplayer.myTool.Music;
+
+import org.greenrobot.eventbus.EventBus;
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,16 +28,22 @@ import java.util.Random;
  *
  */
 public class MusicPlayer implements MediaPlayer.OnCompletionListener {
+    private static final String TAG = "MusicPlayer";
     //单例模式
     private static MusicPlayer player = new MusicPlayer();
     //媒体播放器
-    private MediaPlayer mMediaPlayer;
+    private static MediaPlayer mMediaPlayer;
 
+    private static boolean index = true;
     private Context mContext;
+
+    static ImageView imageView;
+    static TextView textView;
+
     //歌单
-    private List<Song> mQueue;
+    private static List<Song> mQueue;
     //歌单下标
-    private int mQueueIndex;
+    private static int mQueueIndex;
     //队列列表的播放方式
     private PlayMode mPlayMode;
 
@@ -52,7 +70,6 @@ public class MusicPlayer implements MediaPlayer.OnCompletionListener {
     public MusicPlayer() {
 
         mMediaPlayer = new ManagedMediaPlayer();
-
         mMediaPlayer.setOnCompletionListener(this);
         //初始化当前歌单
         mQueue = new ArrayList<>();
@@ -66,7 +83,7 @@ public class MusicPlayer implements MediaPlayer.OnCompletionListener {
      * @param queue
      * @param index
      */
-    public void setQueue(List<Song> queue, int index) {
+    public static void setQueue(List<Song> queue, int index) {
         mQueue = queue;
         mQueueIndex = index;
         play(getNowPlaying());
@@ -76,7 +93,11 @@ public class MusicPlayer implements MediaPlayer.OnCompletionListener {
      * 播放音乐
      * @param song
      */
-    public void play(Song song) {
+    public static void play(Song song) {
+
+        //发给主线程，让主线程更新背景图和Music名称。
+        // 发布事件
+        EventBus.getDefault().post(new MessageEvent(song));
         try {
             mMediaPlayer.reset();
             mMediaPlayer.setDataSource(song.getUrl());
@@ -113,16 +134,20 @@ public class MusicPlayer implements MediaPlayer.OnCompletionListener {
         play(getNextSong());
     }
 
-    public void previous() {
+    /*
+    * 播放下一首
+    * */
+    public void last() {
         play(getPreviousSong());
     }
+
 
     @Override
     public void onCompletion(MediaPlayer mp) {
         next();
     }
 
-    private Song getNowPlaying() {
+    private static Song getNowPlaying() {
         if (mQueue.isEmpty()) {
             return null;
         }
@@ -192,6 +217,9 @@ public class MusicPlayer implements MediaPlayer.OnCompletionListener {
      */
     private int getNextIndex() {
         mQueueIndex = (mQueueIndex + 1) % mQueue.size();
+        if (mQueueIndex >= mQueue.size()){
+            mQueueIndex = 0;
+        }
         return mQueueIndex;
     }
 
@@ -201,6 +229,9 @@ public class MusicPlayer implements MediaPlayer.OnCompletionListener {
      */
     private int getPreviousIndex() {
         mQueueIndex = (mQueueIndex - 1) % mQueue.size();
+        if (mQueueIndex <= 0){
+            mQueueIndex = mQueue.size() - 1;
+        }
         return mQueueIndex;
     }
 

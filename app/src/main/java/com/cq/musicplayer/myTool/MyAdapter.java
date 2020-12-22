@@ -2,6 +2,7 @@ package com.cq.musicplayer.myTool;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import com.cq.musicplayer.MainActivity3;
 import com.cq.musicplayer.Play_Page;
 import com.cq.musicplayer.R;
 import com.cq.musicplayer.musicApiUtil.model.Song;
+import com.cq.musicplayer.player.MusicPlayer;
 
 import java.util.List;
 
@@ -45,6 +47,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                 //myViewHolder.getAdapterPosition()： 获取当前被点击的对象位置
                 //使用ViewHolder对象调用getAdapterPosition（）方法可以拿到当前点击的控件位置！！
                 int adapterPosition = myViewHolder.getAdapterPosition();
+                MusicPlayer.setQueue(list,adapterPosition);
                 Song song = list.get(adapterPosition);
                 Intent intent = new Intent(mContext, Play_Page.class);
                 Bundle bundle = new Bundle();

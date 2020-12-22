@@ -4,6 +4,8 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -117,13 +119,16 @@ public class LoginActivity extends AppCompatActivity {
                         //Figureurl_qq_1 //头像
                         QQUserBean qqUserBean = new Gson().fromJson(response.toString(),QQUserBean.class);
                         //传递qq授权成功的对象到下一个Activity中
-
-                        Intent intent = new Intent(getApplicationContext(),MainActivity3.class);
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable("UserBean", qqUserBean);
-                        intent.putExtra("bundle",bundle);
-                        startActivity(intent);
-                        finish();
+                        if (isNetworkConnected(getApplicationContext())){
+                            Intent intent = new Intent(getApplicationContext(),MainActivity3.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("UserBean", qqUserBean);
+                            intent.putExtra("bundle",bundle);
+                            startActivity(intent);
+                            finish();
+                        }else{
+                            Toast.makeText(LoginActivity.this, "网络开了个小差，去外太空找找吧！！！", Toast.LENGTH_SHORT).show();
+                        }
                     }
 
                     @Override
@@ -162,6 +167,19 @@ public class LoginActivity extends AppCompatActivity {
 
         }
 
+    }
+
+    public boolean isNetworkConnected(Context context) {
+        if (context != null) {
+            ConnectivityManager mConnectivityManager = (ConnectivityManager) context
+                    .getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo mNetworkInfo = mConnectivityManager
+                    .getActiveNetworkInfo();
+            if (mNetworkInfo != null) {
+                return mNetworkInfo.isAvailable();
+            }
+        }
+        return false;
     }
 
     /**
@@ -208,10 +226,13 @@ public class LoginActivity extends AppCompatActivity {
             MobSDK.submitPolicyGrantResult(checked, null);
 
             //直接进入首页
-
-            Intent intent = new Intent(getApplicationContext(),MainActivity3.class);
-            startActivity(intent);
-            finish();
+            if (isNetworkConnected(getApplicationContext())){
+                Intent intent = new Intent(getApplicationContext(),MainActivity3.class);
+                startActivity(intent);
+                finish();
+            }else{
+                Toast.makeText(LoginActivity.this, "网络开了个小差，去外太空找找吧！！！", Toast.LENGTH_SHORT).show();
+            }
 
         }else{
             //未勾选
@@ -238,12 +259,17 @@ public class LoginActivity extends AppCompatActivity {
                     String phone = (String) phoneMap.get("phone");
                     // TODO 利用国家代码和手机号码进行后续的操作
                     PhoneUserBean phoneUserBean = new PhoneUserBean(phone,country);
-                    Intent intent = new Intent(getApplicationContext(),MainActivity3.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("UserBean",phoneUserBean);
-                    intent.putExtra("bundle",bundle);
-                    startActivity(intent);
-                    finish();
+                    if (isNetworkConnected(getApplicationContext())){
+                        Intent intent = new Intent(getApplicationContext(),MainActivity3.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("UserBean",phoneUserBean);
+                        intent.putExtra("bundle",bundle);
+                        startActivity(intent);
+                        finish();
+                    }else{
+                        Toast.makeText(LoginActivity.this, "网络开了个小差，去外太空找找吧！！！", Toast.LENGTH_SHORT).show();
+                    }
+
                 } else{
                     // TODO 处理错误的结果
                 }

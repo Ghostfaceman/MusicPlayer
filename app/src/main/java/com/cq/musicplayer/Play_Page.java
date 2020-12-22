@@ -7,13 +7,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.net.wifi.aware.DiscoverySession;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.LinearInterpolator;
@@ -23,10 +26,13 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
 import com.cq.musicplayer.musicApiUtil.model.Song;
-import com.cq.musicplayer.myTool.Music;
+import com.cq.musicplayer.myTool.MessageEvent;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 public class Play_Page extends AppCompatActivity {
 
@@ -45,45 +51,47 @@ public class Play_Page extends AppCompatActivity {
     private RotateAnimation ra;
     private ObjectAnimator objectAnimator;
     private ImageView imageView;
-    private String[] strings = new String[]{"Alan Walker _ Sabrina", "Charlie Puth", "Lemon", "Kelly Clarkson", "从你的全世界路过", "勇气", "告白之夜", "夏至未至", "夜空中最亮的星", "孤单心事", "小幸运 (Live)", "影子习惯", "拾忆", "明天，你好", "溯 (Reverse)", "那个男孩"};
-
-    // 接收更新后的进度条，用来更新音乐进度。
-    public static Handler handler = new Handler(){
-        @Override
-        public void handleMessage(@NonNull Message msg) {
-            Bundle bundle = msg.getData();
-            //获取发送过来的数据
-            int currentPosition = bundle.getInt("currentPosition");
-            int duration = bundle.getInt("duration");
-
-            //为进度条设置当前进度和总进度
-            seekBar.setMax(duration);
-            seekBar.setProgress(currentPosition);
-            //为精度条设置更改事件
-            seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-                @Override
-                public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-
-                }
-                @Override
-                public void onStartTrackingTouch(SeekBar seekBar) {
-
-                }
-
-                @Override
-                public void onStopTrackingTouch(SeekBar seekBar) {
-                    int progress = seekBar.getProgress();
-                    iBinder.callseekTo(progress);
-                }
-            });
-        }
-    };
     private String picture;
-    private ImageView imageView_back;
-    private TextView textView;
+    private static ImageView imageView_back;
+    private static TextView textView;
     private String singer;
     private String musci_url;
     private Song song;
+    private static Context context;
+    private static Song song1 = null;
+    //private String[] strings = new String[]{"Alan Walker _ Sabrina", "Charlie Puth", "Lemon", "Kelly Clarkson", "从你的全世界路过", "勇气", "告白之夜", "夏至未至", "夜空中最亮的星", "孤单心事", "小幸运 (Live)", "影子习惯", "拾忆", "明天，你好", "溯 (Reverse)", "那个男孩"};
+
+    // 接收更新后的进度条，用来更新音乐进度。或者更换背景图片，和音乐名称。
+    public static Handler handler = new Handler(){
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+                Bundle bundle = msg.getData();
+                //获取发送过来的数据
+                int currentPosition = bundle.getInt("currentPosition");
+                int duration = bundle.getInt("duration");
+
+                //为进度条设置当前进度和总进度
+                seekBar.setMax(duration);
+                seekBar.setProgress(currentPosition);
+                //为精度条设置更改事件
+                seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+
+                    }
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {
+
+                    }
+
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {
+                        int progress = seekBar.getProgress();
+                        iBinder.callseekTo(progress);
+                    }
+                });
+        }
+    };
 
     @SuppressLint("ObjectAnimatorBinding")
     @Override
@@ -92,6 +100,9 @@ public class Play_Page extends AppCompatActivity {
         setContentView(R.layout.activity_play__page);
 
         findView();
+
+        // 注册订阅者
+        EventBus.getDefault().register(this);
 
         //设置全屏
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -119,6 +130,22 @@ public class Play_Page extends AppCompatActivity {
         objectAnimator.setDuration(8000);
         //开始旋转
         objectAnimator.start();
+
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onChangeUI(MessageEvent messageEvent) {
+        // 更新界面
+        Song song = messageEvent.getMessage();
+        textView.setText(song.getName());
+        Glide.with(this).load(song.getPicurl()).into(imageView_back);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // 注销订阅者
+        EventBus.getDefault().unregister(this);
     }
 
     private void findView() {
@@ -133,6 +160,7 @@ public class Play_Page extends AppCompatActivity {
         textView = findViewById(R.id.musicName);
     }
 
+
     class MyConnection implements ServiceConnection{
 
         //绑定成功
@@ -140,7 +168,7 @@ public class Play_Page extends AppCompatActivity {
         @Override
         public void onServiceConnected(ComponentName name1, IBinder service) {
             iBinder = (player_Service.MyBinder) service;
-            iBinder.callpalyMusic(song);
+            iBinder.callpalyMusic(song,imageView_back,textView);
         }
 
         //绑定失败
@@ -175,14 +203,15 @@ public class Play_Page extends AppCompatActivity {
                 button_Start.setVisibility(View.VISIBLE);
                 break;
 
-          /*  //上一首
+            //上一首
             case R.id.last:
                 objectAnimator.resume();
                 //让开始键消失
                 button_Start.setVisibility(View.GONE);
                 //让暂停键显示出来
                 button_Pause.setVisibility(View.VISIBLE);
-                if (!index){
+
+/*                if (!index){
                     A: for (int j = 0; j < strings.length;j++){
                         if (strings[j].equals(name)){
                             i = j;
@@ -193,8 +222,10 @@ public class Play_Page extends AppCompatActivity {
                 }
                 i = i-1 >= 0 ? --i : strings.length - 1;
                 iBinder.callpalyMusic(strings[i]);
-                textView.setText(strings[i]);
-                Glide.with(this).load(Music.picture[i]).into(imageView_back);
+                textView.setText(strings[i]);*/
+
+                //Glide.with(this).load(Music.picture[i]).into(imageView_back);
+                iBinder.last_Music();
                 break;
             //下一首
             case R.id.next:
@@ -203,7 +234,8 @@ public class Play_Page extends AppCompatActivity {
                 button_Start.setVisibility(View.GONE);
                 //让暂停键显示出来
                 button_Pause.setVisibility(View.VISIBLE);
-                if (!index){
+
+                /*if (!index){
                     A: for (int j = 0; j < strings.length;j++){
                         if (strings[j].equals(name)){
                             i = j;
@@ -214,9 +246,11 @@ public class Play_Page extends AppCompatActivity {
                 }
                 i = i+1 < strings.length ? ++i : 0;
                 iBinder.callpalyMusic(strings[i]);
-                textView.setText(strings[i]);
-                Glide.with(this).load(Music.picture[i]).into(imageView_back);
-                break;*/
+                textView.setText(strings[i]);*/
+
+                //Glide.with(this).load(Music.picture[i]).into(imageView_back);
+                iBinder.next_Music();
+                break;
         }
     }
 

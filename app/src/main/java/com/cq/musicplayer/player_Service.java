@@ -10,13 +10,16 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Message;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
 import com.cq.musicplayer.musicApiUtil.model.Song;
+import com.cq.musicplayer.myTool.Music;
 import com.cq.musicplayer.player.MusicPlayer;
 
 import java.io.IOException;
@@ -34,7 +37,7 @@ public class player_Service extends Service {
 
     @Override
     public void onCreate() {
-        //开启服务时，准备一个MediaPlayer用于播                                            放音乐
+        //开启服务时，准备一个MediaPlayer用于播 放音乐
         mediaPlayer = new MediaPlayer();
         super.onCreate();
     }
@@ -43,20 +46,28 @@ public class player_Service extends Service {
 
     public class MyBinder extends Binder{
         @RequiresApi(api = Build.VERSION_CODES.N)
-        public void callpalyMusic(Song song){
-                MusicPlayer.getPlayer().play(song);
+        public void callpalyMusic(Song song,ImageView imageView,TextView textView){
+            MusicPlayer.getPlayer().play(song);
         }
 
         public void callpauseMusic(){
-            pauseMusic();
+            MusicPlayer.getPlayer().pause();
         }
 
         public void callcontinuePlay(){
-            continuePlay();
+            MusicPlayer.getPlayer().resume();
         }
 
         public void callseekTo(int position) {
             seekTo(position);
+        }
+
+        public void next_Music(){
+            MusicPlayer.getPlayer().next();
+        }
+
+        public void last_Music(){
+            MusicPlayer.getPlayer().last();
         }
     }
 
