@@ -17,13 +17,14 @@ import com.bumptech.glide.Glide;
 import com.cq.musicplayer.MainActivity3;
 import com.cq.musicplayer.Play_Page;
 import com.cq.musicplayer.R;
+import com.cq.musicplayer.musicApiUtil.model.Song;
 
 import java.util.List;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     private Context mContext;
-    private List<JavaBean> list;
+    private List<Song> list;
 
     public MyAdapter(List list){
         this.list = list;
@@ -44,11 +45,14 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                 //myViewHolder.getAdapterPosition()： 获取当前被点击的对象位置
                 //使用ViewHolder对象调用getAdapterPosition（）方法可以拿到当前点击的控件位置！！
                 int adapterPosition = myViewHolder.getAdapterPosition();
-                JavaBean javaBean = list.get(adapterPosition);
+                Song song = list.get(adapterPosition);
                 Intent intent = new Intent(mContext, Play_Page.class);
                 Bundle bundle = new Bundle();
-                bundle.putString("name",javaBean.getName());
-                bundle.putString("picture",javaBean.getPicture());
+                bundle.putString("name",song.getName());
+                bundle.putString("picture",song.getPicurl());
+                bundle.putString("singer",song.getArtistsname());
+                bundle.putString("musci_url",song.getUrl());
+                bundle.putSerializable("song",song);
                 intent.putExtra("bundle",bundle);
                 mContext.startActivity(intent);
             }
@@ -59,9 +63,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull MyAdapter.MyViewHolder holder, int position) {
-        JavaBean javaBean = list.get(position);
-        holder.textName.setText(javaBean.getName());
-        Glide.with(mContext).load(javaBean.getPicture()).into(holder.imageView);
+        Song song = list.get(position);
+        holder.musicName.setText(song.getName());
+        holder.singerName.setText(song.getArtistsname());
+        Glide.with(mContext).load(song.getPicurl()).into(holder.imageView);
     }
 
     @Override
@@ -73,15 +78,18 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        private TextView textName;
         private ImageView imageView;
         private CardView cardView;
+        private TextView singerName;
+        private TextView musicName;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            textName = itemView.findViewById(R.id.text_name);
             imageView = itemView.findViewById(R.id.imageView);
             cardView = itemView.findViewById(R.id.cardView);
+            musicName = itemView.findViewById(R.id.text_music_name);
+            singerName = itemView.findViewById(R.id.text_singer_name);
+
         }
     }
 }

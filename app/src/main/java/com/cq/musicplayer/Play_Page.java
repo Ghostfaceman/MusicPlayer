@@ -25,6 +25,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.cq.musicplayer.musicApiUtil.model.Song;
 import com.cq.musicplayer.myTool.Music;
 
 public class Play_Page extends AppCompatActivity {
@@ -80,6 +81,9 @@ public class Play_Page extends AppCompatActivity {
     private String picture;
     private ImageView imageView_back;
     private TextView textView;
+    private String singer;
+    private String musci_url;
+    private Song song;
 
     @SuppressLint("ObjectAnimatorBinding")
     @Override
@@ -87,15 +91,7 @@ public class Play_Page extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play__page);
 
-        button_Pause = findViewById(R.id.pause);
-        button_Start = findViewById(R.id.start);
-        button_last = findViewById(R.id.last);
-        button_next = findViewById(R.id.next);
-        seekBar = findViewById(R.id.seekbar);
-        relative = findViewById(R.id.relative);
-        imageView = findViewById(R.id.image_player);
-        imageView_back = findViewById(R.id.image_back);
-        textView = findViewById(R.id.musicName);
+        findView();
 
         //设置全屏
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -104,6 +100,9 @@ public class Play_Page extends AppCompatActivity {
         bundle = intent.getBundleExtra("bundle");
         name = bundle.getString("name");
         picture = bundle.getString("picture");
+        singer = bundle.getString("singer");
+        musci_url = bundle.getString("musci_url");
+        song = (Song) bundle.getSerializable("song");
         Glide.with(this).load(picture).into(imageView_back);
         textView.setText(name);
 
@@ -122,6 +121,18 @@ public class Play_Page extends AppCompatActivity {
         objectAnimator.start();
     }
 
+    private void findView() {
+        button_Pause = findViewById(R.id.pause);
+        button_Start = findViewById(R.id.start);
+        button_last = findViewById(R.id.last);
+        button_next = findViewById(R.id.next);
+        seekBar = findViewById(R.id.seekbar);
+        relative = findViewById(R.id.relative);
+        imageView = findViewById(R.id.image_player);
+        imageView_back = findViewById(R.id.image_back);
+        textView = findViewById(R.id.musicName);
+    }
+
     class MyConnection implements ServiceConnection{
 
         //绑定成功
@@ -129,7 +140,7 @@ public class Play_Page extends AppCompatActivity {
         @Override
         public void onServiceConnected(ComponentName name1, IBinder service) {
             iBinder = (player_Service.MyBinder) service;
-            iBinder.callpalyMusic(name);
+            iBinder.callpalyMusic(song);
         }
 
         //绑定失败
@@ -164,7 +175,7 @@ public class Play_Page extends AppCompatActivity {
                 button_Start.setVisibility(View.VISIBLE);
                 break;
 
-            //上一首
+          /*  //上一首
             case R.id.last:
                 objectAnimator.resume();
                 //让开始键消失
@@ -205,7 +216,7 @@ public class Play_Page extends AppCompatActivity {
                 iBinder.callpalyMusic(strings[i]);
                 textView.setText(strings[i]);
                 Glide.with(this).load(Music.picture[i]).into(imageView_back);
-                break;
+                break;*/
         }
     }
 

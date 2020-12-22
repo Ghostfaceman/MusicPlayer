@@ -98,7 +98,6 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         public void onComplete(Object response) {
             Toast.makeText(LoginActivity.this, "授权成功", Toast.LENGTH_SHORT).show();
-            Log.e(TAG, "response:" + response);
             JSONObject obj = (JSONObject) response;
             try {
                 String openID = obj.getString("openid");

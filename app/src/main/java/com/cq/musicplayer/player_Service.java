@@ -16,6 +16,9 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
+import com.cq.musicplayer.musicApiUtil.model.Song;
+import com.cq.musicplayer.player.MusicPlayer;
+
 import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -40,8 +43,8 @@ public class player_Service extends Service {
 
     public class MyBinder extends Binder{
         @RequiresApi(api = Build.VERSION_CODES.N)
-        public void callpalyMusic(String musicname){
-            palyMusic(musicname);
+        public void callpalyMusic(Song song){
+                MusicPlayer.getPlayer().play(song);
         }
 
         public void callpauseMusic(){

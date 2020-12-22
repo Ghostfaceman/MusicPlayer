@@ -25,6 +25,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.cq.musicplayer.musicApiUtil.UrlParseJsonUtil;
+import com.cq.musicplayer.musicApiUtil.model.Song;
 import com.cq.musicplayer.myTool.JavaBean;
 import com.cq.musicplayer.myTool.Music;
 import com.cq.musicplayer.myTool.MyAdapter;
@@ -36,11 +38,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainActivity3 extends AppCompatActivity {
 
     private static final String TAG = "MainActivity3";
-    private List<JavaBean> list = new ArrayList<>();;
+    private List<Song> list = new ArrayList<>();;
     private DrawerLayout drawerLayout;
     private AutoCompleteTextView textQuery;
     private MyAdapter myAdapter;
@@ -51,6 +55,8 @@ public class MainActivity3 extends AppCompatActivity {
     private ImageView userHead;
     private TextView userName;
     private View nav_header;
+    private boolean index;
+
 
     @SuppressLint("ResourceAsColor")
     @Override
@@ -70,10 +76,24 @@ public class MainActivity3 extends AppCompatActivity {
         //为RecyclerView设置数据和样式
         GridLayoutManager manager = new GridLayoutManager(this,1);
         recyclerView.setLayoutManager(manager);
-        initial2(); //给list里面初始化数据
-        myAdapter = new MyAdapter(list);
-        recyclerView.setAdapter(myAdapter);
-
+        initial_netWork(); //给list里面初始化数据
+        Timer timer = new Timer();
+        final TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                if (index == true){
+                    myAdapter = new MyAdapter(list);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            recyclerView.setAdapter(myAdapter);
+                            index = false;
+                        }
+                    });
+                }
+            }
+        };
+        timer.schedule(task,0,100);
         //获取登录界面传递过来的数据。
         Intent intent = getIntent();
         Bundle bundle = intent.getBundleExtra("bundle");
@@ -121,7 +141,7 @@ public class MainActivity3 extends AppCompatActivity {
                     @Override
                     public void run() {
                         //重新初始化一遍
-                        initial2();
+                        initial_netWork();
                         //通知适配器，数据改变了
                         myAdapter.notifyDataSetChanged();
                         //刷新结束，取消显示刷新进度
@@ -155,7 +175,6 @@ public class MainActivity3 extends AppCompatActivity {
         nav_header = navigationView.getHeaderView(0);
         userHead = nav_header.findViewById(R.id.userHead);
         userName = nav_header.findViewById(R.id.userName);
-
     }
 
     private void setNoticeBar(Toolbar toolBar) {
@@ -184,7 +203,7 @@ public class MainActivity3 extends AppCompatActivity {
 */
 
     //刷新用的数据初始化   (自己写的，把自己都整糊涂了，但能保证刷新的前面几个几乎不会重复！！)
-    private void initial2() {
+    /*private void initial2() {
         list.clear();
         int j = 0;
         int i1 = -1,i2 = -1,i11 = -1,i22 = -1,i111 = -1,i222 = -1;
@@ -204,8 +223,26 @@ public class MainActivity3 extends AppCompatActivity {
             javaBean.setPicture(Music.picture[i2]);
             list.add(javaBean);
         }
-    }
+    }*/
 
+
+    //网络加载歌曲：
+    private void initial_netWork() {
+        list.clear();
+        new Thread(){
+            @Override
+            public void run() {
+                int in = 0;
+                for(int i = 20;i>0;i--) {
+                    in++;
+                    String jsonString = UrlParseJsonUtil.getWebString("https://api.uomg.com/api/rand.music?sort=热歌榜&format=json");
+                    Song song = UrlParseJsonUtil.paseJsonObject(jsonString);
+                    list.add(song);
+                    index = true;
+                }
+            }
+        }.start();
+    }
 
     //创建Menu
     @Override
