@@ -93,7 +93,7 @@ public class MainActivity3 extends AppCompatActivity {
                 }
             }
         };
-        timer.schedule(task,0,100);
+        timer.schedule(task,0,50);
         //获取登录界面传递过来的数据。
         Intent intent = getIntent();
         Bundle bundle = intent.getBundleExtra("bundle");
@@ -117,7 +117,7 @@ public class MainActivity3 extends AppCompatActivity {
         }
 
         //设置刷新的控件的颜色
-        swipeRefreshLayout.setColorSchemeColors(R.color.colorPrimary);
+        swipeRefreshLayout.setColorSchemeColors(R.color.colorAccent);
         //为刷新控件设置监听
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -129,27 +129,37 @@ public class MainActivity3 extends AppCompatActivity {
 
     private void refresh() {
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        //重新初始化一遍
-                        initial_netWork();
-                        //通知适配器，数据改变了
-                        myAdapter.notifyDataSetChanged();
-                        //刷新结束，取消显示刷新进度
-                        swipeRefreshLayout.setRefreshing(false);
+        if (LoginActivity.isNetworkConnected(getApplicationContext())){
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
-                });
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            //重新初始化一遍
+                            initial_netWork();
+                            //通知适配器，数据改变了
+                            myAdapter.notifyDataSetChanged();
+                            swipeRefreshLayout.setRefreshing(false);
+                        }
+                    });
+                }
+            }).start();
+        }else{
+            try {
+                Thread.sleep(300);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-        }).start();
+            //刷新结束，取消显示刷新进度
+            swipeRefreshLayout.setRefreshing(false);
+            Toast.makeText(this, "网络似乎开了个小差~", Toast.LENGTH_SHORT).show();
+        }
     }
 
     //为左边导航栏中的条目设置点击事件
@@ -232,13 +242,15 @@ public class MainActivity3 extends AppCompatActivity {
         new Thread(){
             @Override
             public void run() {
-                int in = 0;
-                for(int i = 20;i>0;i--) {
-                    in++;
-                    String jsonString = UrlParseJsonUtil.getWebString("https://api.uomg.com/api/rand.music?sort=热歌榜&format=json");
-                    Song song = UrlParseJsonUtil.paseJsonObject(jsonString);
-                    list.add(song);
-                    index = true;
+                for(int i = 15;i>0;i--) {
+                    if (LoginActivity.isNetworkConnected(getApplicationContext())){
+                        String jsonString = UrlParseJsonUtil.getWebString("https://api.uomg.com/api/rand.music?sort=热歌榜&format=json");
+                        Song song = UrlParseJsonUtil.paseJsonObject(jsonString);
+                        list.add(song);
+                        if (i % 3 == 0){
+                            index = true;
+                        }
+                    }
                 }
             }
         }.start();

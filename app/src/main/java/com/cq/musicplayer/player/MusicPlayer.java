@@ -28,7 +28,6 @@ import java.util.Random;
  *
  */
 public class MusicPlayer implements MediaPlayer.OnCompletionListener {
-    private static final String TAG = "MusicPlayer";
     //单例模式
     private static MusicPlayer player = new MusicPlayer();
     //媒体播放器
@@ -37,9 +36,6 @@ public class MusicPlayer implements MediaPlayer.OnCompletionListener {
     private static boolean index = true;
     private static boolean index2 = false;
     private Context mContext;
-
-    static ImageView imageView;
-    static TextView textView;
 
     //歌单
     private static List<Song> mQueue;

@@ -2,19 +2,27 @@ package com.cq.musicplayer.myTool;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.cq.musicplayer.MainActivity3;
 import com.cq.musicplayer.Play_Page;
 import com.cq.musicplayer.R;
@@ -60,16 +68,31 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                 mContext.startActivity(intent);
             }
         });
-
         return myViewHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final MyAdapter.MyViewHolder holder, int position) {
         Song song = list.get(position);
         holder.musicName.setText(song.getName());
         holder.singerName.setText(song.getArtistsname());
-        Glide.with(mContext).load(song.getPicurl()).into(holder.imageView);
+        //Glide.with(mContext).load(song.getPicurl()).into(holder.imageView);
+
+        //设置监听！！
+        Glide.with(mContext).load(song.getPicurl()).listener(new RequestListener<Drawable>() {
+            @Override //当图片在加载时，会回调该方法
+            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                holder.progressBar.setVisibility(View.VISIBLE);
+                return false;
+            }
+
+            @Override //当该图片加载完成时，会执行该方法
+            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                holder.progressBar.setVisibility(View.INVISIBLE);
+                return false;
+            }
+        }).into(holder.imageView);
+
     }
 
     @Override
@@ -85,6 +108,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         private CardView cardView;
         private TextView singerName;
         private TextView musicName;
+        private ProgressBar progressBar;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -92,9 +116,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             cardView = itemView.findViewById(R.id.cardView);
             musicName = itemView.findViewById(R.id.text_music_name);
             singerName = itemView.findViewById(R.id.text_singer_name);
-
+            progressBar = itemView.findViewById(R.id.progress);
         }
     }
 }
-
-
