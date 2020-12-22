@@ -25,6 +25,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.cq.musicplayer.myTool.Music;
 
 public class Play_Page extends AppCompatActivity {
 
@@ -182,7 +183,7 @@ public class Play_Page extends AppCompatActivity {
                 i = i-1 >= 0 ? --i : strings.length - 1;
                 iBinder.callpalyMusic(strings[i]);
                 textView.setText(strings[i]);
-                Glide.with(this).load(picture).into(imageView);
+                Glide.with(this).load(Music.picture[i]).into(imageView_back);
                 break;
             //下一首
             case R.id.next:
@@ -203,7 +204,7 @@ public class Play_Page extends AppCompatActivity {
                 i = i+1 < strings.length ? ++i : 0;
                 iBinder.callpalyMusic(strings[i]);
                 textView.setText(strings[i]);
-                Glide.with(this).load(picture).into(imageView);
+                Glide.with(this).load(Music.picture[i]).into(imageView_back);
                 break;
         }
     }
