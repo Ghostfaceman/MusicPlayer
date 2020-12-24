@@ -41,23 +41,23 @@ public class player_Service extends Service {
 
     public class MyBinder extends Binder{
         @RequiresApi(api = Build.VERSION_CODES.N)
-        public void callpalyMusic(Song song){
+        public void paly(Song song){
             musicPlayer.play(song);
         }
 
-        public void callpauseMusic(){
+        public void pause(){
             MusicPlayer.getPlayer().pause();
         }
 
-        public void callcontinuePlay(){
+        public void resume(){
             MusicPlayer.getPlayer().resume();
         }
 
-        public void next_Music(){
+        public void next(){
             MusicPlayer.getPlayer().next();
         }
 
-        public void last_Music(){
+        public void last(){
             MusicPlayer.getPlayer().last();
         }
     }

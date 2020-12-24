@@ -47,9 +47,9 @@ public class PlayPage_Activity extends AppCompatActivity {
     private String picture;
     private static ImageView imageView_back;
     private static TextView textView;
+    private Song song;
     private String singer;
     private String musci_url;
-    private Song song;
 
     @SuppressLint("ObjectAnimatorBinding")
     @Override
@@ -125,7 +125,7 @@ public class PlayPage_Activity extends AppCompatActivity {
         @Override
         public void onServiceConnected(ComponentName name1, IBinder service) {
             iBinder = (player_Service.MyBinder) service;
-            iBinder.callpalyMusic(song);
+            iBinder.paly(song);
         }
 
         //绑定失败
@@ -142,7 +142,7 @@ public class PlayPage_Activity extends AppCompatActivity {
             case R.id.start:
                 objectAnimator.resume();
                       //调用继续播放方法
-                iBinder.callcontinuePlay();
+                iBinder.resume();
                       //让开始键消失
                 button_Start.setVisibility(View.GONE);
                      //让暂停键显示出来
@@ -153,7 +153,7 @@ public class PlayPage_Activity extends AppCompatActivity {
             case R.id.pause:
                 objectAnimator.pause();  //让动画暂停
                      //调用服务里的暂停音乐方法
-                iBinder.callpauseMusic();
+                iBinder.pause();
                      //让暂停键消失
                 button_Pause.setVisibility(View.GONE);
                      //让开始键显示出来
@@ -168,7 +168,7 @@ public class PlayPage_Activity extends AppCompatActivity {
                 //让暂停键显示出来
                 button_Pause.setVisibility(View.VISIBLE);
 
-                iBinder.last_Music(); //播发上一首音乐
+                iBinder.last(); //播发上一首音乐
                 break;
 
             //下一首
@@ -178,8 +178,7 @@ public class PlayPage_Activity extends AppCompatActivity {
                 button_Start.setVisibility(View.GONE);
                 //让暂停键显示出来
                 button_Pause.setVisibility(View.VISIBLE);
-
-                iBinder.next_Music();  //播发下一首音乐
+                iBinder.next();  //播发下一首音乐
                 break;
         }
     }

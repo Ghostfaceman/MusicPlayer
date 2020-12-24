@@ -28,9 +28,9 @@ public class MusicPlayer implements MediaPlayer.OnCompletionListener {
     private static boolean index2 = false;
     private Context mContext;
 
-    //歌单
+    //队列
     private static List<Song> mQueue;
-    //歌单下标
+    //队列下标
     private static int mQueueIndex;
     //队列列表的播放方式
     private PlayMode mPlayMode;
