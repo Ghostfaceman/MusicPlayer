@@ -7,15 +7,6 @@
         <item name="colorAccent">#30B5C6</item>
     </style>
 
-
-    <!--杨棋昆-->
-<!--    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        &lt;!&ndash; Customize your theme here. &ndash;&gt;
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">#CD2626</item>
-        <item name="colorAccent">@color/colorAccent</item>
-    </style>-->
-
     <style name="NoStatusTheme"  parent="AppTheme">
         <item name="windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>

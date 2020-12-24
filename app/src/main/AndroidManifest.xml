@@ -18,17 +18,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Home_MainActivity"></activity>
-        <activity android:name=".Play_Page" />
-        <activity android:name=".MainActivity3" />
+        <activity android:name=".Activitys.PlayPage_Activity" />
+        <activity android:name=".Activitys.Main_MainActivity" />
 
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
 
         <activity
-            android:name=".MainActivity"
-            android:icon="@drawable/logo1"
+            android:name=".Activitys.Animation_MainActivity"
+            android:icon="@drawable/logo"
             android:label="KK Music"
             android:theme="@style/NoStatusTheme">
             <intent-filter>
@@ -37,9 +36,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity" />
+        <activity android:name=".Activitys.Login_Activity" />
 
-        <service android:name=".player_Service" /> <!-- qq授权必要的 -->
+        <service android:name=".Services.player_Service" /> <!-- qq授权必要的 -->
         <activity
             android:name="com.tencent.tauth.AuthActivity"
             android:launchMode="singleTask"

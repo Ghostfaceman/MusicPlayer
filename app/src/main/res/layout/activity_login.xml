@@ -4,9 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity"
+    tools:context=".Activitys.Login_Activity"
     android:background="#00BCD4">
-
 
     <ImageView
         android:id="@+id/image6"
@@ -20,7 +19,7 @@
         android:layout_marginTop="107dp"
         android:layout_marginEnd="115dp"
         android:layout_marginBottom="442dp"
-        app:srcCompat="@drawable/logo" />
+        app:srcCompat="@drawable/animation_logo" />
 
     <LinearLayout
         android:layout_width="wrap_content"
