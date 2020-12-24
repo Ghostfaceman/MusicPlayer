@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.LinearInterpolator;
@@ -38,7 +39,7 @@ public class PlayPage_Activity extends AppCompatActivity {
 
     private ImageButton  button_Pause;
     private ImageButton  button_Start;
-    private static SeekBar seekBar;
+    private SeekBar seekBar;
     private Bundle bundle;
     private static player_Service.MyBinder iBinder;
     private String name;
@@ -91,7 +92,43 @@ public class PlayPage_Activity extends AppCompatActivity {
         //开始旋转
         objectAnimator.start();
 
+        //设置进度条监听
+        setOnListener();
+
+
     }
+
+    /**
+     * 进度条监听回调
+     */
+    private void setOnListener() {
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            /**
+             * 拖动条停止拖动的时候调用
+             */
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+            /**
+             * 拖动条开始拖动的时候调用
+             */
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+            /**
+             * 拖动条进度改变的时候调用
+             */
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress,
+                                          boolean fromUser) {
+
+            }
+        });
+
+    }
+
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onChangeUI(MessageEvent messageEvent) {
@@ -182,5 +219,7 @@ public class PlayPage_Activity extends AppCompatActivity {
                 break;
         }
     }
+
+
 
 }

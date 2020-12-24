@@ -25,7 +25,7 @@ public class MusicPlayer implements MediaPlayer.OnCompletionListener {
     //媒体播放器
     private static MediaPlayer mMediaPlayer;
 
-    private static boolean index2 = false;
+
     private Context mContext;
 
     //队列
@@ -243,4 +243,6 @@ public class MusicPlayer implements MediaPlayer.OnCompletionListener {
         mMediaPlayer = null;
         mContext = null;
     }
+
+
 }

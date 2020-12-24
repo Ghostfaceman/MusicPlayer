@@ -55,13 +55,14 @@ public class ManagedMediaPlayer extends MediaPlayer implements MediaPlayer.OnCom
     }
 
     /**
-     * 设置监听器
+     * 设置播放完成监听器
      * @param listener
      */
     @Override
     public void setOnCompletionListener(OnCompletionListener listener) {
         this.mOnCompletionListener = listener;
     }
+
 
     /**
      * 完成
