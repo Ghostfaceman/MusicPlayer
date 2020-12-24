@@ -5,7 +5,6 @@ import android.media.MediaPlayer;
 
 import com.cq.musicplayer.Event.PlayEvent;
 import com.cq.musicplayer.JavaBean.Song;
-import com.cq.musicplayer.Event.MessageEvent;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -24,12 +23,12 @@ public class MusicPlayer implements MediaPlayer.OnCompletionListener {
     private static MusicPlayer player = new MusicPlayer();
     //媒体播放器
     private static MediaPlayer mMediaPlayer;
+    //当前队列
+    private static List<Song> mQueue;
 
 
     private Context mContext;
 
-    //队列
-    private static List<Song> mQueue;
     //队列下标
     private static int mQueueIndex;
     //队列列表的播放方式
@@ -77,6 +76,8 @@ public class MusicPlayer implements MediaPlayer.OnCompletionListener {
         play(getNowPlaying());
     }
 
+
+
     /**
      * 播放音乐
      * @param song
@@ -90,7 +91,7 @@ public class MusicPlayer implements MediaPlayer.OnCompletionListener {
             mMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override
                 public void onPrepared(MediaPlayer mp) {
-                    mMediaPlayer.start();
+                    mp.start();
                 }
             });
         } catch (IOException e) {
@@ -119,17 +120,16 @@ public class MusicPlayer implements MediaPlayer.OnCompletionListener {
      */
     public void next() {
         Song nextSong = getNextSong();
-        EventBus.getDefault().post(new MessageEvent(nextSong));
         play(nextSong);
     }
 
-    /*
-    * 播放上一首
-    * */
+    /**
+     * 播放上一首
+     */
     public void last() {
         Song previousSong = getPreviousSong();
         play(getPreviousSong());
-        EventBus.getDefault().post(new MessageEvent(previousSong));
+
     }
 
 
@@ -138,7 +138,7 @@ public class MusicPlayer implements MediaPlayer.OnCompletionListener {
         next();
     }
 
-    private static Song getNowPlaying() {
+    public static Song getNowPlaying() {
         if (mQueue.isEmpty()) {
             return null;
         }
@@ -234,6 +234,8 @@ public class MusicPlayer implements MediaPlayer.OnCompletionListener {
         mQueueIndex = new Random().nextInt(mQueue.size()) % mQueue.size();
         return mQueueIndex;
     }
+
+
 
     /**
      * 释放播放资源

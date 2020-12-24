@@ -1,39 +1,33 @@
 package com.cq.musicplayer.Activitys;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.IBinder;
-import android.os.Message;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.LinearInterpolator;
-import android.view.animation.RotateAnimation;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
+import com.cq.musicplayer.Event.PlayEvent;
 import com.cq.musicplayer.JavaBean.Song;
-import com.cq.musicplayer.Event.MessageEvent;
+import com.cq.musicplayer.MyUtility.player.MusicPlayer;
 import com.cq.musicplayer.R;
 import com.cq.musicplayer.Services.player_Service;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
+
+import static com.cq.musicplayer.Event.PlayEvent.Action.LAST;
+import static com.cq.musicplayer.Event.PlayEvent.Action.NEXT;
+import static com.cq.musicplayer.Event.PlayEvent.Action.RESUME;
+import static com.cq.musicplayer.Event.PlayEvent.Action.STOP;
 
 public class PlayPage_Activity extends AppCompatActivity {
 
@@ -41,7 +35,6 @@ public class PlayPage_Activity extends AppCompatActivity {
     private ImageButton  button_Start;
     private SeekBar seekBar;
     private Bundle bundle;
-    private static player_Service.MyBinder iBinder;
     private String name;
     private ObjectAnimator objectAnimator;
     private ImageView imageView;
@@ -51,6 +44,7 @@ public class PlayPage_Activity extends AppCompatActivity {
     private Song song;
     private String singer;
     private String musci_url;
+    PlayEvent playEvent;
 
     @SuppressLint("ObjectAnimatorBinding")
     @Override
@@ -64,8 +58,10 @@ public class PlayPage_Activity extends AppCompatActivity {
         //寻找控件
         findView();
 
-        // 注册订阅者
-        EventBus.getDefault().register(this);
+        //设置进度条监听
+        setOnListener();
+
+
 
         //获取上个活动传递过来的数据
         Intent intent = getIntent();
@@ -80,7 +76,7 @@ public class PlayPage_Activity extends AppCompatActivity {
 
         Intent intent1 = new Intent(this,player_Service.class);  //首先通过startService的方法开启服务，保证该服务在后台长期运行
         startService(intent1);
-        bindService(intent1,new MyConnection(),BIND_ABOVE_CLIENT);
+
 
         objectAnimator = ObjectAnimator.ofFloat(imageView, "rotation", 0f, 720f);
         //旋转不停顿
@@ -92,8 +88,7 @@ public class PlayPage_Activity extends AppCompatActivity {
         //开始旋转
         objectAnimator.start();
 
-        //设置进度条监听
-        setOnListener();
+
 
 
     }
@@ -130,19 +125,19 @@ public class PlayPage_Activity extends AppCompatActivity {
     }
 
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onChangeUI(MessageEvent messageEvent) {
-        // 更新界面
-        Song song = messageEvent.getMessage();
-        textView.setText(song.getName());
-        Glide.with(this).load(song.getPicurl()).into(imageView_back);
-    }
+    /**
+     * 更新UI (如播放上一首 或者 下一首的更新)
+     * @param song
+     */
+    public void onChangeUI(Song song) {
+       // 更新界面
+       textView.setText(song.getName());
+       Glide.with(this).load(song.getPicurl()).into(imageView_back);
+   }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        // 注销订阅者
-        EventBus.getDefault().unregister(this);
     }
 
     private void findView() {
@@ -155,46 +150,38 @@ public class PlayPage_Activity extends AppCompatActivity {
     }
 
 
-    class MyConnection implements ServiceConnection{
-
-        //绑定成功
-        @RequiresApi(api = Build.VERSION_CODES.N)
-        @Override
-        public void onServiceConnected(ComponentName name1, IBinder service) {
-            iBinder = (player_Service.MyBinder) service;
-            iBinder.paly(song);
-        }
-
-        //绑定失败
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-
-        }
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public void myOnclick(View view){
         switch (view.getId()){
             //音乐开始键
             case R.id.start:
                 objectAnimator.resume();
-                      //调用继续播放方法
-                iBinder.resume();
+                //调用继续播放方法
+                //iBinder.resume();
+                playEvent.setAction(STOP);
+                EventBus.getDefault().post(playEvent);
+                //更新Ui
+                onChangeUI(MusicPlayer.getNowPlaying());
                       //让开始键消失
                 button_Start.setVisibility(View.GONE);
                      //让暂停键显示出来
                 button_Pause.setVisibility(View.VISIBLE);
+
                 break;
 
             //音乐暂停键（刚开始是显示的暂停键）
             case R.id.pause:
                 objectAnimator.pause();  //让动画暂停
                      //调用服务里的暂停音乐方法
-                iBinder.pause();
+                //iBinder.pause();
+                playEvent.setAction(RESUME);
+                EventBus.getDefault().post(playEvent);
+                //更新Ui
+                onChangeUI(MusicPlayer.getNowPlaying());
                      //让暂停键消失
                 button_Pause.setVisibility(View.GONE);
                      //让开始键显示出来
                 button_Start.setVisibility(View.VISIBLE);
+
                 break;
 
             //上一首
@@ -204,8 +191,12 @@ public class PlayPage_Activity extends AppCompatActivity {
                 button_Start.setVisibility(View.GONE);
                 //让暂停键显示出来
                 button_Pause.setVisibility(View.VISIBLE);
+                //播放上一首音乐
+                playEvent.setAction(LAST);
+                EventBus.getDefault().post(playEvent);
+                //更新Ui
+                onChangeUI(MusicPlayer.getNowPlaying());
 
-                iBinder.last(); //播发上一首音乐
                 break;
 
             //下一首
@@ -215,7 +206,13 @@ public class PlayPage_Activity extends AppCompatActivity {
                 button_Start.setVisibility(View.GONE);
                 //让暂停键显示出来
                 button_Pause.setVisibility(View.VISIBLE);
-                iBinder.next();  //播发下一首音乐
+
+                //播放下一首音乐
+                playEvent.setAction(NEXT);
+                EventBus.getDefault().post(playEvent);
+                //更新Ui
+                onChangeUI(MusicPlayer.getNowPlaying());
+
                 break;
         }
     }

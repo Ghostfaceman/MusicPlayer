@@ -13,7 +13,7 @@ public class PlayEvent {
 
     private Action mAction;
     private Song mSong;
-    private List<Song> mQueue;
+    private static List<Song> mQueue;
     private int seekTo;
 
     public Song getSong() {
