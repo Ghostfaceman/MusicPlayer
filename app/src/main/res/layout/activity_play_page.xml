@@ -8,6 +8,7 @@
     tools:context=".Activitys.Animation_MainActivity"
     android:background="@drawable/playpage_background">
 
+
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="match_parent"
@@ -18,23 +19,43 @@
 
     <TextView
         android:id="@+id/musicName"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:singleLine="true"
         android:text="明天，你好"
         android:textColor="#fff"
-        android:textSize="20sp"
+        android:textSize="21sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.173"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/singerName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:width="100dp"
+        android:ellipsize="end"
+        android:gravity="left"
+        android:singleLine="true"
+        android:text="小昆"
+        android:textColor="#fff"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.128"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.542" />
 
     <androidx.cardview.widget.CardView
             android:id="@+id/cardView"
             android:layout_width="match_parent"
             android:layout_height="180dp"
             android:layout_margin="30dp"
-            app:cardCornerRadius="8dp"
+            app:cardCornerRadius="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.482"
@@ -93,52 +114,48 @@
         <RelativeLayout
             android:layout_height="match_parent"
             android:layout_width="match_parent"
-            android:background="#fff"
+            android:background ="#2D368893"
             android:orientation="vertical">
 
             <ImageButton
                 android:id="@+id/start"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
                 android:onClick="myOnclick"
                 android:src="@drawable/play_music"
                 android:layout_centerHorizontal="true"
                 android:visibility="gone"
                 tools:ignore="OnClick"
-                android:layout_marginTop="10dp"
                 android:background="#0003A9F4"/>
+
             <ImageButton
                 android:id="@+id/pause"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:background="#0003A9F4"
                 android:onClick="myOnclick"
                 android:src="@drawable/pause_music"
-                android:layout_centerHorizontal="true"
-                tools:ignore="OnClick"
-                android:background="#0003A9F4"
-                android:layout_marginTop="10dp"/>
+                tools:ignore="OnClick" />
 
             <ImageButton
                 android:id="@+id/next"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
                 android:onClick="myOnclick"
                 android:src="@drawable/next_music"
-                android:layout_marginRight="28dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginRight="20dp"
                 android:layout_alignParentRight="true"
                 android:text="下一首"
                 tools:ignore="OnClick"
-                android:background="#0003A9F4"
-                />
+                android:background="#0003A9F4" />
 
             <ImageButton
                 android:id="@+id/last"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
                 android:onClick="myOnclick"
-                android:layout_marginLeft="28dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginLeft="20dp"
                 android:src="@drawable/last_music"
                 android:layout_alignParentStart="true"
                 android:text="上一首"

@@ -2,24 +2,21 @@ package com.cq.musicplayer.Services;
 
 import android.app.Service;
 import android.content.Intent;
-import android.content.res.AssetFileDescriptor;
-import android.media.MediaPlayer;
 import android.os.Binder;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Message;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
 import com.cq.musicplayer.Activitys.PlayPage_Activity;
+import com.cq.musicplayer.Event.MessageEvent;
 import com.cq.musicplayer.JavaBean.Song;
 import com.cq.musicplayer.MyUtility.player.MusicPlayer;
 
-import java.util.Timer;
-import java.util.TimerTask;
+import org.greenrobot.eventbus.EventBus;
 
 public class player_Service extends Service {
 
@@ -41,24 +38,28 @@ public class player_Service extends Service {
 
     public class MyBinder extends Binder{
         @RequiresApi(api = Build.VERSION_CODES.N)
-        public void paly(Song song){
+        public void callpalyMusic(Song song){
             musicPlayer.play(song);
         }
 
-        public void pause(){
-            MusicPlayer.getPlayer().pause();
+        public void callpauseMusic(){
+            musicPlayer.pause();
         }
 
-        public void resume(){
-            MusicPlayer.getPlayer().resume();
+        public void callcontinuePlay(){
+            musicPlayer.resume();
         }
 
-        public void next(){
-            MusicPlayer.getPlayer().next();
+        public void next_Music(){
+            musicPlayer.next();
         }
 
-        public void last(){
-            MusicPlayer.getPlayer().last();
+        public void last_Music(){
+            musicPlayer.last();
+        }
+
+        public void setProgress(int progress){
+            musicPlayer.setProgress(progress);
         }
     }
 

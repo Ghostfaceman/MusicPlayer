@@ -2,7 +2,10 @@ package com.cq.musicplayer.MyUtility.player;
 
 import android.content.Context;
 import android.media.MediaPlayer;
+import android.os.Bundle;
+import android.os.Message;
 
+import com.cq.musicplayer.Activitys.PlayPage_Activity;
 import com.cq.musicplayer.Event.PlayEvent;
 import com.cq.musicplayer.JavaBean.Song;
 import com.cq.musicplayer.Event.MessageEvent;
@@ -13,6 +16,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  *
@@ -24,13 +29,9 @@ public class MusicPlayer implements MediaPlayer.OnCompletionListener {
     private static MusicPlayer player = new MusicPlayer();
     //媒体播放器
     private static MediaPlayer mMediaPlayer;
-
-    private static boolean index2 = false;
-    private Context mContext;
-
-    //队列
+    //歌单
     private static List<Song> mQueue;
-    //队列下标
+    //歌单下标
     private static int mQueueIndex;
     //队列列表的播放方式
     private PlayMode mPlayMode;
@@ -49,10 +50,6 @@ public class MusicPlayer implements MediaPlayer.OnCompletionListener {
      */
     public static MusicPlayer getPlayer() {
         return player;
-    }
-
-    public static void setPlayer(MusicPlayer player) {
-        MusicPlayer.player = player;
     }
 
     public MusicPlayer() {
@@ -82,7 +79,6 @@ public class MusicPlayer implements MediaPlayer.OnCompletionListener {
      * @param song
      */
     public static void play(Song song) {
-
         try {
             mMediaPlayer.reset();
             mMediaPlayer.setDataSource(song.getUrl());
@@ -91,6 +87,27 @@ public class MusicPlayer implements MediaPlayer.OnCompletionListener {
                 @Override
                 public void onPrepared(MediaPlayer mp) {
                     mMediaPlayer.start();
+                    //把歌曲的总时长，和当时音乐播放的时间，发送给Handler，给SeekBar设置总时长，和当前进度。
+                    Message message = Message.obtain();
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("duration",mMediaPlayer.getDuration());
+                    message.setData(bundle);
+                    message.what = 0;
+                    PlayPage_Activity.handler.sendMessage(message);
+
+                    //定时发送，当前音乐的进度，让UI更新seekBar
+                    TimerTask task = new TimerTask() {
+                        @Override
+                        public void run() {
+                            Message message = Message.obtain();
+                            Bundle bundle = new Bundle();
+                            bundle.putInt("CurrentPosition",mMediaPlayer.getCurrentPosition());
+                            message.setData(bundle);
+                            message.what = 1;
+                            PlayPage_Activity.handler.sendMessage(message);
+                        }
+                    };
+                    new Timer().schedule(task,0,100);
                 }
             });
         } catch (IOException e) {
@@ -99,7 +116,7 @@ public class MusicPlayer implements MediaPlayer.OnCompletionListener {
     }
 
     /**
-     * 暂停播放
+     * 暂停
      */
     public void pause() {
         if(mMediaPlayer.isPlaying()){
@@ -111,6 +128,7 @@ public class MusicPlayer implements MediaPlayer.OnCompletionListener {
      * 重新开始播放
      */
     public void resume() {
+        if (!mMediaPlayer.isPlaying())
         mMediaPlayer.start();
     }
 
@@ -132,6 +150,12 @@ public class MusicPlayer implements MediaPlayer.OnCompletionListener {
         EventBus.getDefault().post(new MessageEvent(previousSong));
     }
 
+    /*
+     * 设置进度
+     * */
+    public void setProgress(int progress) {
+        mMediaPlayer.seekTo(progress);
+    }
 
     @Override
     public void onCompletion(MediaPlayer mp) {
@@ -241,6 +265,5 @@ public class MusicPlayer implements MediaPlayer.OnCompletionListener {
     private void release() {
         mMediaPlayer.release();
         mMediaPlayer = null;
-        mContext = null;
     }
 }
