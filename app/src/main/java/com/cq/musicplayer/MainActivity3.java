@@ -6,15 +6,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,40 +19,29 @@ import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
-import com.cq.musicplayer.musicApiUtil.UrlParseJsonUtil;
-import com.cq.musicplayer.musicApiUtil.model.Song;
-import com.cq.musicplayer.myTool.JavaBean;
-import com.cq.musicplayer.myTool.Music;
-import com.cq.musicplayer.myTool.MyAdapter;
 import com.cq.musicplayer.myTool.PhoneUserBean;
 import com.cq.musicplayer.myTool.QQUserBean;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
-
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class MainActivity3 extends AppCompatActivity {
 
-    private static final String TAG = "MainActivity3";
-    private List<Song> list = new ArrayList<>();;
     private DrawerLayout drawerLayout;
     private AutoCompleteTextView textQuery;
-    private MyAdapter myAdapter;
     private NavigationView navigationView;
     private Toolbar toolBar;
-    private RecyclerView recyclerView;
-    private SwipeRefreshLayout swipeRefreshLayout;
     private ImageView userHead;
     private TextView userName;
     private View nav_header;
-    private boolean index;
 
+    private BottomNavigationView bottomNavigationView;
+    private Fragment fragmentA;
+    private Fragment fragmentB;
+    private Fragment FragmentC;
+    private Fragment[] fragments;
+    private int lastfragment;//用于记录上个选择的Fragment
 
     @SuppressLint("ResourceAsColor")
     @Override
@@ -73,27 +58,6 @@ public class MainActivity3 extends AppCompatActivity {
         //为左边导航栏中的条目设置点击事件
         leftDrawerViewOnclick();
 
-        //为RecyclerView设置数据和样式
-        GridLayoutManager manager = new GridLayoutManager(this,1);
-        recyclerView.setLayoutManager(manager);
-        initial_netWork(); //给list里面初始化数据
-        Timer timer = new Timer();
-        final TimerTask task = new TimerTask() {
-            @Override
-            public void run() {
-                if (index == true){
-                    myAdapter = new MyAdapter(list);
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            recyclerView.setAdapter(myAdapter);
-                            index = false;
-                        }
-                    });
-                }
-            }
-        };
-        timer.schedule(task,0,50);
         //获取登录界面传递过来的数据。
         Intent intent = getIntent();
         Bundle bundle = intent.getBundleExtra("bundle");
@@ -116,51 +80,63 @@ public class MainActivity3 extends AppCompatActivity {
             //通过游客登录的方式进入的首页
         }
 
-        //设置刷新的控件的颜色
-        swipeRefreshLayout.setColorSchemeColors(R.color.colorAccent);
-        //为刷新控件设置监听
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        initFragment();
+
+    }
+
+    private void initFragment() {
+        fragmentA = new Fragment_A();
+        fragmentB = new Fragment_B();
+        FragmentC = new Fragment_C();
+        fragments = new Fragment[]{fragmentA, fragmentB,FragmentC};
+        lastfragment = 0;
+        //设置底部导航栏默认选中主页！
+        bottomNavigationView.setSelectedItemId(bottomNavigationView.getMenu().getItem(1).getItemId());
+        getSupportFragmentManager().beginTransaction().replace(R.id.frame_fragment,fragmentA).show(fragmentA).commitAllowingStateLoss();
+        bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onRefresh() {
-                refresh();
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                switch (item.getItemId()) {
+                    case R.id.home_page: {
+                        if (lastfragment != 0) {
+                            switchFragment(lastfragment, 0);
+                            lastfragment = 0;
+                        }
+                        return true;
+                    }
+                    case R.id.find_more: {
+                        if (lastfragment != 1) {
+                            switchFragment(lastfragment, 1);
+                            lastfragment = 1;
+                        }
+                        return true;
+                    }
+                    case R.id.self: {
+                        if (lastfragment != 2) {
+                            switchFragment(lastfragment, 2);
+                            lastfragment = 2;
+                        }
+                        return true;
+                    }
+                }
+                return false;
             }
         });
     }
 
-    private void refresh() {
-
-        if (LoginActivity.isNetworkConnected(getApplicationContext())){
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        Thread.sleep(500);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            //重新初始化一遍
-                            initial_netWork();
-                            //通知适配器，数据改变了
-                            myAdapter.notifyDataSetChanged();
-                            swipeRefreshLayout.setRefreshing(false);
-                        }
-                    });
-                }
-            }).start();
-        }else{
-            try {
-                Thread.sleep(300);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            //刷新结束，取消显示刷新进度
-            swipeRefreshLayout.setRefreshing(false);
-            Toast.makeText(this, "网络似乎开了个小差~", Toast.LENGTH_SHORT).show();
+    //切换Fragment
+    private void switchFragment(int lastfragment, int index) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.hide(fragments[lastfragment]);//隐藏上个Fragment
+        if (fragments[index].isAdded() == false) {
+            transaction.add(R.id.frame_fragment, fragments[index]);
         }
+        transaction.show(fragments[index]).commitAllowingStateLoss();
     }
+
 
     //为左边导航栏中的条目设置点击事件
     private void leftDrawerViewOnclick() {
@@ -180,8 +156,6 @@ public class MainActivity3 extends AppCompatActivity {
         navigationView = findViewById(R.id.navigationView);
         toolBar = findViewById(R.id.toolbar);
         textQuery = findViewById(R.id.textQuery);
-        recyclerView = findViewById(R.id.recyclerView);
-        swipeRefreshLayout = findViewById(R.id.swiperefresh);
         nav_header = navigationView.getHeaderView(0);
         userHead = nav_header.findViewById(R.id.userHead);
         userName = nav_header.findViewById(R.id.userName);
@@ -235,26 +209,6 @@ public class MainActivity3 extends AppCompatActivity {
         }
     }*/
 
-
-    //网络加载歌曲：
-    private void initial_netWork() {
-        list.clear();
-        new Thread(){
-            @Override
-            public void run() {
-                for(int i = 15;i>0;i--) {
-                    if (LoginActivity.isNetworkConnected(getApplicationContext())){
-                        String jsonString = UrlParseJsonUtil.getWebString("https://api.uomg.com/api/rand.music?sort=热歌榜&format=json");
-                        Song song = UrlParseJsonUtil.paseJsonObject(jsonString);
-                        list.add(song);
-                        if (i % 3 == 0){
-                            index = true;
-                        }
-                    }
-                }
-            }
-        }.start();
-    }
 
     //创建Menu
     @Override

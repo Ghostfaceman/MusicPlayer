@@ -117,7 +117,9 @@ public class MusicPlayer implements MediaPlayer.OnCompletionListener {
      * 暂停播放
      */
     public void pause() {
-        mMediaPlayer.pause();
+        if(mMediaPlayer.isPlaying()){
+            mMediaPlayer.pause();
+        }
     }
 
     /**

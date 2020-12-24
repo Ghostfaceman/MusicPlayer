@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/find_more"
+        android:enabled="true"
+        android:icon="@drawable/more_page"
+        android:title="发现更多"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/home_page"
+        android:enabled="true"
+        android:icon="@drawable/home_fragment"
+        android:title="主页"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/self"
+        android:enabled="true"
+        android:icon="@drawable/self_page"
+        android:title="个人专属"
+        app:showAsAction="ifRoom" />
+</menu>

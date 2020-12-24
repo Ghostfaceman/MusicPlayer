@@ -83,11 +83,13 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             @Override //当图片在加载时，会回调该方法
             public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                 holder.progressBar.setVisibility(View.VISIBLE);
+                holder.textView___.setText("正在正在加载...");
                 return false;
             }
 
             @Override //当该图片加载完成时，会执行该方法
             public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                holder.textView___.setVisibility(View.INVISIBLE);
                 holder.progressBar.setVisibility(View.INVISIBLE);
                 return false;
             }
@@ -109,6 +111,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         private TextView singerName;
         private TextView musicName;
         private ProgressBar progressBar;
+        private TextView textView___;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -117,6 +120,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             musicName = itemView.findViewById(R.id.text_music_name);
             singerName = itemView.findViewById(R.id.text_singer_name);
             progressBar = itemView.findViewById(R.id.progress);
+            textView___ = itemView.findViewById(R.id.text___);
         }
     }
 }
