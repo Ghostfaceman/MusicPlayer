@@ -13,8 +13,17 @@ public class PlayEvent {
 
     private Action mAction;
     private Song mSong;
-    private static List<Song> mQueue;
+    private List<Song> mQueue;
     private int seekTo;
+    private int index;
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIdex(int index) {
+        this.index = index;
+    }
 
     public Song getSong() {
         return mSong;

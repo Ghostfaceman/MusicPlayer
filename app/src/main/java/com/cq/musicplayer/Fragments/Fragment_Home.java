@@ -17,6 +17,7 @@ import com.cq.musicplayer.Activitys.Login_Activity;
 import com.cq.musicplayer.MyUtility.UrlParseJsonUtil;
 import com.cq.musicplayer.JavaBean.Song;
 import com.cq.musicplayer.Adapter.MyAdapter;
+import com.cq.musicplayer.player.MusicPlayer;
 import com.cq.musicplayer.R;
 
 import java.util.ArrayList;
@@ -31,6 +32,7 @@ public class Fragment_Home extends Fragment {
     private MyAdapter myAdapter;
     private List<Song> list = new ArrayList<>();
     private SwipeRefreshLayout swipeRefreshLayout;
+    MusicPlayer musicPlayer;
 
     @Nullable
     @Override
@@ -71,6 +73,7 @@ public class Fragment_Home extends Fragment {
             }
         });
 
+        musicPlayer = MusicPlayer.getPlayer();
         return view;
     }
 

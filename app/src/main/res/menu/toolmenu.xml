@@ -4,6 +4,6 @@
     <item
         android:id="@+id/query"
         android:title="Query"
-        android:icon="@drawable/query"
+        android:icon="@mipmap/query"
         app:showAsAction="always"/>
 </menu>

@@ -6,56 +6,71 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".Activitys.Animation_MainActivity"
-    android:background="@drawable/playpage_background">
+    android:background="@mipmap/playpage_background">
 
 
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/playpage_background"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp" />
+        android:src="@mipmap/playpage_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/musicName"
-        android:layout_width="200dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:singleLine="true"
         android:text="明天，你好"
         android:textColor="#fff"
-        android:textSize="21sp"
+        android:textSize="20sp"
+        android:maxLength="10"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.173"
+        app:layout_constraintHorizontal_bias="0.096"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/singerName"
+        android:id="@+id/author"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:width="100dp"
-        android:ellipsize="end"
-        android:gravity="left"
-        android:singleLine="true"
-        android:text="小昆"
+        android:maxLength="5"
+        android:text="明天"
         android:textColor="#fff"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/musicName"
+        app:layout_constraintEnd_toEndOf="@+id/imageView2"
+        app:layout_constraintHorizontal_bias="0.654"
+        app:layout_constraintStart_toEndOf="@+id/musicName"
+        app:layout_constraintTop_toTopOf="@+id/musicName"
+        app:layout_constraintVertical_bias="0.0" />
+
+
+    <TextView
+        android:id="@+id/end_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:textColor="#fff"
+        app:layout_constraintBottom_toTopOf="@+id/cardView2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.128"
+        app:layout_constraintHorizontal_bias="0.95"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.542" />
+        app:layout_constraintTop_toBottomOf="@+id/cardView"
+        app:layout_constraintVertical_bias="0.714"
+        android:visibility="invisible"/>
 
     <androidx.cardview.widget.CardView
             android:id="@+id/cardView"
             android:layout_width="match_parent"
             android:layout_height="180dp"
             android:layout_margin="30dp"
-            app:cardCornerRadius="20dp"
+            app:cardCornerRadius="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.482"
@@ -99,6 +114,7 @@
         app:layout_constraintVertical_bias="0.712" />
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardView2"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_margin="20dp"
@@ -112,57 +128,63 @@
 
         <!-- android:background="#78B1A8A8" -->
         <RelativeLayout
-            android:layout_height="match_parent"
             android:layout_width="match_parent"
-            android:background ="#2D368893"
+            android:layout_height="match_parent"
+            android:background="#fff"
             android:orientation="vertical">
 
             <ImageButton
                 android:id="@+id/start"
-                android:layout_width="80dp"
-                android:layout_height="match_parent"
-                android:onClick="myOnclick"
-                android:src="@drawable/play_music"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:background="#0003A9F4"
+                android:onClick="myOnclick"
+                android:src="@mipmap/play_music"
                 android:visibility="gone"
-                tools:ignore="OnClick"
-                android:background="#0003A9F4"/>
+                tools:ignore="OnClick" />
 
             <ImageButton
                 android:id="@+id/pause"
-                android:layout_width="80dp"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
                 android:background="#0003A9F4"
                 android:onClick="myOnclick"
-                android:src="@drawable/pause_music"
+                android:src="@mipmap/pause_music"
                 tools:ignore="OnClick" />
 
             <ImageButton
                 android:id="@+id/next"
-                android:layout_width="70dp"
-                android:layout_height="match_parent"
-                android:onClick="myOnclick"
-                android:src="@drawable/next_music"
-                android:layout_marginRight="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="28dp"
+                android:background="#0003A9F4"
+                android:onClick="myOnclick"
+                android:src="@mipmap/next_music"
                 android:text="下一首"
-                tools:ignore="OnClick"
-                android:background="#0003A9F4" />
+                tools:ignore="OnClick" />
 
             <ImageButton
                 android:id="@+id/last"
-                android:layout_width="70dp"
-                android:layout_height="match_parent"
-                android:onClick="myOnclick"
-                android:layout_marginLeft="20dp"
-                android:src="@drawable/last_music"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
+                android:layout_marginLeft="28dp"
+                android:layout_marginTop="15dp"
+                android:background="#0003A9F4"
+                android:onClick="myOnclick"
+                android:src="@mipmap/last_music"
                 android:text="上一首"
-                tools:ignore="OnClick"
-                android:background="#0003A9F4"/>
+                tools:ignore="OnClick" />
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

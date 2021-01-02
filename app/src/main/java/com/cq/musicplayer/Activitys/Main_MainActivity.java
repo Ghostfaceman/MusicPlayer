@@ -11,7 +11,6 @@ import androidx.fragment.app.FragmentTransaction;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,6 +25,7 @@ import com.cq.musicplayer.Fragments.Fragment_Self;
 import com.cq.musicplayer.JavaBean.PhoneUserBean;
 import com.cq.musicplayer.JavaBean.QQUserBean;
 import com.cq.musicplayer.R;
+import com.cq.musicplayer.Services.Player_Service;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import java.io.Serializable;
@@ -53,6 +53,10 @@ public class Main_MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Intent service = new Intent(getApplicationContext(), Player_Service.class);
+        //提前开启服务
+        startService(service);
+
         //找到相应控件
         findView();
 
@@ -70,6 +74,8 @@ public class Main_MainActivity extends AppCompatActivity {
 
         //初始化Fragment
         initFragment();
+
+
     }
 
 

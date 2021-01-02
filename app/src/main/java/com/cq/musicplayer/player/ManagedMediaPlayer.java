@@ -1,4 +1,4 @@
-package com.cq.musicplayer.MyUtility.player;
+package com.cq.musicplayer.player;
 
 import android.media.MediaPlayer;
 
@@ -16,9 +16,17 @@ public class ManagedMediaPlayer extends MediaPlayer implements MediaPlayer.OnCom
     }
 
     //播放的状态
-    private Status mState;
+    private  Status mState;
 
-    //初始化完成的监听
+    public Status getmState() {
+        return mState;
+    }
+
+    public void setmState(Status mState) {
+        this.mState = mState;
+    }
+
+    //播放完成的监听
     private OnCompletionListener mOnCompletionListener;
 
     /**

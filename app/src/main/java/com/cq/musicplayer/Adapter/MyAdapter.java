@@ -22,19 +22,16 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.cq.musicplayer.Activitys.PlayPage_Activity;
-import com.cq.musicplayer.Event.PlayEvent;
 import com.cq.musicplayer.R;
 import com.cq.musicplayer.JavaBean.Song;
 
-import org.greenrobot.eventbus.EventBus;
-
+import java.io.Serializable;
 import java.util.List;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     private Context mContext;
     private List<Song> list;
-    private PlayEvent playEvent = new PlayEvent();
 
     public MyAdapter(List list){
         this.list = list;
@@ -43,6 +40,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     @NonNull
     @Override
     public MyAdapter.MyViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, final int viewType) {
+
 
         if (mContext == null){
             mContext = parent.getContext();
@@ -56,18 +54,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                 //使用ViewHolder对象调用getAdapterPosition（）方法可以拿到当前点击的控件位置！！
                 int adapterPosition = myViewHolder.getAdapterPosition();
                 Song song = list.get(adapterPosition);
-
-                playEvent.setQueue(list);
-                playEvent.setAction(PlayEvent.Action.PLAY);
-                EventBus.getDefault().post(playEvent);
-
                 Intent intent = new Intent(mContext, PlayPage_Activity.class);
                 Bundle bundle = new Bundle();
-                bundle.putString("name",song.getName());
-                bundle.putString("picture",song.getPicurl());
-                bundle.putString("singer",song.getArtistsname());
-                bundle.putString("musci_url",song.getUrl());
-                bundle.putSerializable("song",song);
+                //只用传递这两个参数
+                bundle.putSerializable("songs", (Serializable) list);
+                bundle.putInt("index", adapterPosition);
                 intent.putExtra("bundle",bundle);
                 mContext.startActivity(intent);
             }
